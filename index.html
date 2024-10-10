@@ -1,274 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hornero Envios - Home</title>
-	<link rel="icon" type="image/png" href="images/hornero-envios-logo.ico">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="fonts/fa/css/all.css">
-	<link rel="stylesheet" href="style-global.css">
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="style-responsive.css">
-	<script src="js/jquery.js"></script>
-	<script src="js/scripts.js"></script>
-	<script src="form/contactform.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Empresa de Envíos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body id="home">
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo de la empresa">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
 
-	<header>
-		<div class="container flex-sb-aic">
-			
-			<a href="#" class="logo">
-				<img  src="images/hornero-envios-logo.png" alt="">
-			</a>
+    <main>
+        <section id="hero">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="slide1.jpg" alt="Slide 1">
+                        <div class="slide-content">
+                            <h1>Envíos rápidos y seguros</h1>
+                            <p>Confía en nosotros para tus envíos</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="slide2.jpg" alt="Slide 2">
+                        <div class="slide-content">
+                            <h1>Cobertura nacional</h1>
+                            <p>Llegamos a todos los rincones del país</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="slide3.jpg" alt="Slide 3">
+                        <div class="slide-content">
+                            <h1>Tecnología de punta</h1>
+                            <p>Seguimiento en tiempo real de tus envíos</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
 
-			<div class="menublock">
-				<a href="javascript:void();" class="showmenu"><i class="fa-solid fa-bars"></i></a>
-				<a href="javascript:void();" class="hidemenu"><i class="fa-solid fa-xmark"></i></a>
-				<nav id="headnav">
-					<ul>
-						<li class="active"><a href="#home">Home</a></li>
-						<li><a href="#about">About</a></li>
-						<li><a href="#services">Services</a></li>
-						<li><a href="#projects">Projects</a></li>
-						<li><a href="#contact">Contact</a></li>
-					</ul>
-				</nav>
-			</div>
+        <section id="formularios">
+            <div class="form-container">
+                <div class="form-tabs">
+                    <button class="tab-button active" data-tab="cotizar">Cotizar envío</button>
+                    <button class="tab-button" data-tab="seguimiento">Seguimiento</button>
+                </div>
+                <form id="cotizarForm" class="form active">
+                    <h2>Cotizar envío</h2>
+                    <input type="number" placeholder="Peso (kg)" required>
+                    <input type="number" placeholder="Altura (cm)" required>
+                    <input type="number" placeholder="Ancho (cm)" required>
+                    <input type="number" placeholder="Largo (cm)" required>
+                    <input type="text" placeholder="Origen" required>
+                    <input type="text" placeholder="Destino" required>
+                    <button type="submit">Cotizar</button>
+                </form>
+                <form id="seguimientoForm" class="form">
+                    <h2>Seguimiento de envío</h2>
+                    <input type="text" placeholder="Código de seguimiento" required>
+                    <button type="submit">Rastrear</button>
+                </form>
+            </div>
+        </section>
 
-		</div>
-	</header>
-	<!--header-->
+        <section id="servicios">
+            <h2>Nuestros Servicios</h2>
+            <div class="services-container">
+                <div class="service-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Envío Estándar</h3> 
+                    <p>Entrega en 3-5 días hábiles</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-plane"></i>
+                    <h3>Envío Express</h3>
+                    <p>Entrega en 1-2 días hábiles</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-box"></i>
+                    <h3>Embalaje Especial</h3>
+                    <p>Protección adicional para objetos frágiles</p>
+                </div>
+            </div>
+        </section>
 
+        <section id="contacto">
+            <h2>Contáctanos</h2>
+            <form id="contactForm">
+                <input type="text" placeholder="Nombre" required>
+                <input type="email" placeholder="Correo electrónico" required>
+                <textarea placeholder="Mensaje" required></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
 
-	<section class="banner">
-		<div class="container">
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Acerca de nosotros</h3>
+                <p>Somos una empresa líder en servicios de envío, comprometida con la excelencia y la satisfacción del cliente.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces rápidos</h3>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Tu Empresa de Envíos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-			
-
-			<div class="text">
-				<h1>ENVIOS A TODO ARGENTINA</h1>
-				<p>
-					Recibimos tu envio y lo entregamos en el centro de la cola de marian
-				</p>
-				<a href="#">More &nbsp; <i class="fa-solid fa-arrow-right-long"></i></a>
-			</div>
-			<!-- OPCION COTIZAR/SEGUIR -->
-			<div class="cotizacion-form">
-				<form action="">
-					<div class="formInputContainer">
-						<p class="formLabel" ><i class="fa-solid fa-location-dot"></i><span>Desde</span></p>
-						<p class="formLabel"><i class="fa-solid fa-location-dot"></i><span>Hasta</span></p>
-						<input class="formInput" type="text">
-						<input class="formInput" type="text">
-					</div>
-					
-					
-					<p>Medidas del paquete</p>
-					<div class="formInputContainer">
-						<input class="formInput" type="number" placeholder="Alto (cm)">
-						<input class="formInput" type="number" placeholder="Ancho (cm)">
-						<input class="formInput" type="number" placeholder="Largo (cm)">
-						<input class="formInput" type="number" placeholder="Peso (gr)">
-					</div>
-				</form>
-			</div>
-
-
-		</div>
-	</section>
-	<!--banner-->
-
-
-
-
-	<section class="services" id="services">
-		<div class="container">
-			
-
-			<h2>¿Qué necesitás enviar?</h2>
-			
-
-			<div class="services-items flex-sb">
-
-				<div class="item">
-					<i class="fa-solid fa-truck-fast"></i>
-					<h3>Paquetería</h3>
-
-				</div>
-
-				<div class="item type2">
-					<i class="fa-solid fa-envelope"></i>
-					<h3>Sobre</h3>
-
-				</div>
-
-				<div class="item">
-					<i class="fa-regular fa-file-lines"></i>
-					<h3>Carta Documento</h3>
-
-				</div>
-
-
-				<div class="item type2">
-					<i class="fa-solid fa-wine-bottle"></i>
-					<h3>Vinos</h3>
-
-				</div>
-
-				<div class="item">
-					<i class="fa-solid fa-tv"></i>
-					<h3>Electrodomésticos</h3>
-
-				</div>
-
-				<div class="item type2">
-					<i class="fa-solid fa-pallet"></i>
-					<h3>Pallet</h3>
-				</div>
-
-			</div>
-
-
-		</div>
-	</section>
-	<!--about-->
-
-
-
-
-
-
-	<section class="projects" id="projects">
-		<div class="container">
-
-			<div class="project-item flex-sb">
-				<div class="text">
-					<h3>Project 1.</h3>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis velit eu massa egestas, nec viverra mi ultrices. Aenean blandit dui ut malesuada malesuada. Maecenas vestibulum dui eget augue dictum tempus.
-					</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis velit eu massa egestas, nec viverra mi ultrices. Aenean blandit dui ut malesuada malesuada. Maecenas vestibulum dui eget augue dictum tempus.
-					</p>
-				</div>
-				<div class="visual">
-					<img src="images/pic3.jpg" alt="">
-				</div>
-			</div>
-			<!--1-->
-
-
-			<div class="project-item flex-sb-rv">
-				<div class="text">
-					<h3>Project 2.</h3>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis velit eu massa egestas, nec viverra mi ultrices. Aenean blandit dui ut malesuada malesuada. Maecenas vestibulum dui eget augue dictum tempus.
-					</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis velit eu massa egestas, nec viverra mi ultrices. Aenean blandit dui ut malesuada malesuada. Maecenas vestibulum dui eget augue dictum tempus.
-					</p>
-				</div>
-				<div class="visual">
-					<img src="images/pic4.jpg" alt="">
-				</div>
-			</div>
-			<!--2-->
-
-
-			<div class="project-item flex-sb">
-				<div class="text">
-					<h3>Project 3.</h3>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis velit eu massa egestas, nec viverra mi ultrices. Aenean blandit dui ut malesuada malesuada. Maecenas vestibulum dui eget augue dictum tempus.
-					</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis velit eu massa egestas, nec viverra mi ultrices. Aenean blandit dui ut malesuada malesuada. Maecenas vestibulum dui eget augue dictum tempus.
-					</p>
-				</div>
-				<div class="visual">
-					<img src="images/pic5.jpg" alt="">
-				</div>
-			</div>
-			<!--3-->
-
-		</div>
-	</section>
-	<!--projects-->
-
-
-
-
-
-	<section class="contact" id="contact">
-		<div class="container">
-
-			<h2>Contact Us</h2>
-
-			<div class="contact-options flex-sb">
-				<div class="formarea">
-					<form id="contactform" method="post" action="form/contactform.php" class="contactform flex-sb">
-						<fieldset class="half">
-							<label>Name*</label>
-							<input type="text" name="name">
-						</fieldset>
-						<fieldset class="half">
-							<label>Email*</label>
-							<input type="email" name="email">
-						</fieldset>
-						<fieldset class="half">
-							<label>Subject*</label>
-							<input type="text" name="subject">
-						</fieldset>
-						<fieldset class="half">
-							<label>Phone*</label>
-							<input type="text" name="phone">
-						</fieldset>
-						<fieldset class="full">
-							<label>Message*</label>
-							<textarea name="message"></textarea>
-						</fieldset>
-						<button type="submit" name="submit" id="submit">Submit &nbsp; <i class="fa-regular fa-envelope"></i></button>
-					</form>
-				</div>
-				<div class="contact-info">
-					<ul>
-						<li>
-							<a href="#"><i class="fa-regular fa-envelope"></i> &nbsp; <strong>Email:</strong> info@youremail.com</a>
-						</li>
-						<li>
-							<a href="#"><i class="fa-solid fa-phone"></i> &nbsp; <strong>Phone:</strong> (+) 222-333-444</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-				
-
-		</div>
-	</section>
-	<!--contact-->
-
-
-
-
-
-
-	<footer>
-		<div class="container">
-			
-			<div class="copyright">Copyright &copy; 2024 | All Rights Reserved</div>
-
-			<div class="social">
-				<a href="#"><i class="fa-brands fa-facebook"></i></a>
-				<a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-				<a href="#"><i class="fa-brands fa-instagram"></i></a>
-			</div>
-
-		</div>
-	</footer>
-	<!--footer-->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="./js/script.js"></script>
 </body>
 </html>

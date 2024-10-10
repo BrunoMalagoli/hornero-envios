@@ -1,0 +1,185 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+.top-bar {
+    background-color: #4f518c;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+}
+.disconnect-btn {
+    background-color: #45a049;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.main-container {
+    background-color: white;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1 {
+    color: #333;
+    border-bottom: 2px solid #ff0000;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.form-group {
+    flex: 1 1 200px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.form-group > input{
+    width: 100%;
+}
+.form-group:last-child {
+    margin-right: 0;
+}
+label {
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 100px;
+}
+input[type="text"], input[type="number"], select {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.radio-group {
+    display: flex;
+    align-items: center;
+}
+.radio-group label {
+    margin-right: 10px;
+}
+.date-input {
+    display: flex;
+    align-items: center;
+}
+.date-input input {
+    margin-right: 5px;
+}
+.icon {
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    display: inline-block;
+    margin-left: 5px;
+}
+.bordered-section {
+    border: 2px solid #4f518c;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.price-box {
+    background-color: #4f518c;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    width: 10%;
+    height: 100px;
+}
+.buttons {
+    margin-top: 20px;
+    text-align: right;
+}
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.btn-save {
+    background-color: #4f518c;
+    color: white;
+}
+.btn-cancel {
+    background-color: #f44336;
+    color: white;
+}
+.bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.bottom-fields {
+    flex: 1;
+}
+.view-price-btn {
+    align-self: flex-end;
+}
+.sender-receiver-section {
+    border: 2px solid #4f518c;
+    background-color: #4f518c;
+    padding: 15px;
+    margin-top: 20px;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.form-column-item{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.rol-form-section{
+    width: 35%;
+    min-width: 300px;
+}
+.rol-form-section div{
+    width: 100%;
+}
+.rol-form-section h2{
+    color: #4f518c;
+    padding: 5px;
+    background-color: white;
+    width: 250px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        flex: 1 1 100%;
+        margin-right: 0;
+    }
+    .price-box {
+        width: 100%;
+    }
+    .bottom-section {
+        flex-direction: column;
+    }
+    .view-price-btn {
+        align-self: flex-start;
+        margin-top: 10px;
+    }
+}
