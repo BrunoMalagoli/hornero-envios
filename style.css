@@ -1,5 +1,5 @@
 	/* Estilos generales */
-* {
+	* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -16,7 +16,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #333;
+    background-color: var(--color-principal);
     color: #fff;
 }
 
@@ -86,7 +86,7 @@ body {
 /* Formularios */
 #formularios {
     padding: 4rem 2rem;
-    background-color: #f4f4f4;
+    background-color: var(--color-principal);
 }
 
 .form-container {
@@ -159,29 +159,10 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Contacto */
-#contacto {
-    padding: 4rem 2rem;
-    background-color: #f4f4f4;
-}
-
-#contactForm {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-#contactForm input,
-#contactForm textarea,
-#contactForm button {
-    display: block;
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-}
 
 /* Footer */
 footer {
-    background-color: #333;
+    background-color: var(--color-principal);
     color: #fff;
     padding: 2rem;
 }
