@@ -27,13 +27,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="codigo-barras">Código de barras:</label>
-                    <input type="text" id="codigo-barras" name="codigo-barras">
+                    <label for="codigo-barras">Código de envio:</label>
+                    <input type="text" id="codigo-envio" name="codigo-barras">
                 </div>
             </form>
             <div class="ultima-lectura">
                 <h3>Última lectura</h3>
-                <div class="lectura-content"></div>
+                <div class="lectura-content">
+                    
+                </div>
             </div>
         </div>
     </div>
