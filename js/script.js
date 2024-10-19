@@ -75,11 +75,7 @@ serviceCards.forEach((card) => {
   observer.observe(card);
 });
 
-// Manejo de envío de formularios (simulado)
-document.getElementById("cotizarForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  alert("Cotización enviada. Nos pondremos en contacto contigo pronto.");
-});
+
 
 document.getElementById("seguimientoForm").addEventListener("submit", (e) => {
   e.preventDefault();

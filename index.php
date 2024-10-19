@@ -66,16 +66,17 @@
                     <button class="tab-button active" data-tab="cotizar">Cotizar envío</button>
                     <button class="tab-button" data-tab="seguimiento">Seguimiento</button>
                 </div>
-                <form id="cotizarForm" class="form active">
+                <form id="cotizarForm" method="POST" class="form active">
                     <h2>Cotizar envío</h2>
-                    <input type="number" placeholder="Peso (kg)" required>
-                    <input type="number" placeholder="Altura (cm)" required>
-                    <input type="number" placeholder="Ancho (cm)" required>
-                    <input type="number" placeholder="Largo (cm)" required>
-                    <input type="text" placeholder="Origen" required>
-                    <input type="text" placeholder="Destino" required>
+                    <input type="number" name="peso" placeholder="Peso (kg)" required>
+                    <input type="number" name="alto" placeholder="Alto (cm)" required>
+                    <input type="number" name="ancho" placeholder="Ancho (cm)" required>
+                    <input type="number" name="largo" placeholder="Largo (cm)" required>
+                    <input type="text" name="origen" placeholder="Origen" required>
+                    <input type="text" name="destino" placeholder="Destino" required>
                     <button type="submit">Cotizar</button>
                 </form>
+                <div id="resultadoCotizacion"></div>
                 <form id="seguimientoForm" class="form">
                     <h2>Seguimiento de envío</h2>
                     <input type="text" placeholder="Código de seguimiento" required>
@@ -133,8 +134,29 @@
             <p>&copy; 2023 Tu Empresa de Envíos. Todos los derechos reservados.</p>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="./js/script.js"></script>
+    <script>
+        document.getElementById('cotizarForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevenir el recargo de la página
+
+            // Crear un objeto FormData con los datos del formulario
+            let formData = new FormData(this);
+
+            // Hacer la solicitud AJAX
+            fetch('cotizar.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text()) // Obtener la respuesta como texto
+            .then(data => {
+                // Mostrar el resultado en el div
+                document.getElementById('resultadoCotizacion').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>
