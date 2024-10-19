@@ -75,14 +75,32 @@ serviceCards.forEach((card) => {
   observer.observe(card);
 });
 
+document.getElementById("cotizarForm").addEventListener("submit", function (e) {
+  e.preventDefault(); // Prevenir el recargo de la página
+  // Crear un objeto FormData con los datos del formulario
+  let formData = new FormData(this);
 
-
-document.getElementById("seguimientoForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  alert("Rastreando envío. "); // Aquí podrías implementar la lógica real de rastreo
+  // Hacer la solicitud AJAX
+  fetch("./services/cotizar.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.text()) // Obtener la respuesta como texto
+    .then((data) => {
+      // Mostrar el resultado en el div
+      document.getElementById("resultadoCotizacion").innerHTML = data;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });
 
-document.getElementById("contactForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  alert("Mensaje enviado. Gracias por contactarnos.");
-});
+// document.getElementById("seguimientoForm").addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   alert("Rastreando envío. "); // Aquí podrías implementar la lógica real de rastreo
+// });
+
+// document.getElementById("contactForm").addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   alert("Mensaje enviado. Gracias por contactarnos.");
+// });

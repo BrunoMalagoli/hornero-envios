@@ -136,27 +136,5 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="./js/script.js"></script>
-    <script>
-        document.getElementById('cotizarForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevenir el recargo de la página
-
-            // Crear un objeto FormData con los datos del formulario
-            let formData = new FormData(this);
-
-            // Hacer la solicitud AJAX
-            fetch('cotizar.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text()) // Obtener la respuesta como texto
-            .then(data => {
-                // Mostrar el resultado en el div
-                document.getElementById('resultadoCotizacion').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
 </body>
 </html>
