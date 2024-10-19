@@ -1,3 +1,45 @@
+<?php
+session_start();
+include("conexion.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['mensaje'])) {
+        $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
+        $apellido = mysqli_real_escape_string($conexion, $_POST['apellido']);
+        $email = mysqli_real_escape_string($conexion, $_POST['email']);
+        $mensaje = mysqli_real_escape_string($conexion, $_POST['mensaje']);
+        $fecha = date('Y-m-d H:i:s');
+
+        $destino="horneroenvios@gmail.com";
+        $asunto="Contacto desde el sitio";
+        $mensaje=" Mensaje: ".$mensaje;
+
+        $header="From: ".$nombre."<".$email.">";
+
+        $enviado = mail($destino,$asunto,$mensaje,$header);
+
+        if($enviado == true){
+            echo "Su correo ha sido enviado.";
+        }else{
+            echo "Hubo un error en el envio del mail.";
+        }
+
+        $query = "INSERT INTO reclamos (descripcion, nombre, apellido, email, fecha) 
+                  VALUES ('$mensaje', '$nombre', '$apellido', '$email', '$fecha')";
+
+        if (mysqli_query($conexion, $query)) {
+            $resultado = "Gracias por contactarnos, $nombre. Tu mensaje ha sido registrado.";
+           } else {
+                $error = "Lo sentimos, hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.";
+           }
+          } else {
+        $error = "Por favor, completa todos los campos del formulario.";
+       }
+
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,22 +75,18 @@
             <div class="contact-container">
                 <h1>Contáctanos</h1>
                 <p>Estamos aquí para ayudarte. Completa el formulario y nos pondremos en contacto contigo lo antes posible.</p>
-                <form id="contactForm">
+                <form id="contactForm" action="" method="POST">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input type="text" id="nombre" name="nombre" required>
                     </div>
                     <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" name="apellido" required>
+                    </div>
+                    <div class="form-group">
                         <label for="email">Correo electrónico</label>
                         <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="telefono">Teléfono</label>
-                        <input type="tel" id="telefono" name="telefono">
-                    </div>
-                    <div class="form-group">
-                        <label for="asunto">Asunto</label>
-                        <input type="text" id="asunto" name="asunto" required>
                     </div>
                     <div class="form-group">
                         <label for="mensaje">Mensaje</label>
