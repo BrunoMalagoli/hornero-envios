@@ -62,6 +62,36 @@
             </thead>
             <tbody>
                 <!-- Los datos se cargarán aquí dinámicamente -->
+                 <?php
+                    session_start();
+                    $_SESSION['sucursal_user'] = 2;
+                    $conexion = mysqli_connect("localhost" , "root", "" , "hornero") or exit("No se pudo establecer una conexión");
+                    $respuesta_enviosxsuc = mysqli_query($conexion,
+                     "
+                    SELECT envio.*, sucursal_origen.nombre AS nombre_origen, sucursal_destino.nombre AS nombre_destino
+                    FROM envio
+                    LEFT JOIN sucursal AS sucursal_origen ON envio.sucursal_origen = sucursal_origen.id
+                    LEFT JOIN sucursal AS sucursal_destino ON envio.sucursal_destino = sucursal_destino.id
+                    WHERE envio.sucursal_origen = {$_SESSION['sucursal_user']}
+                    ");
+                    
+                    while($result = mysqli_fetch_assoc($respuesta_enviosxsuc)){
+                        echo("
+                        <tr>
+                            <td>{$result['codigo']}</td>
+                            <td>{$result['remitente']}</td>
+                            <td>{$result['destinatario']}</td>
+                            <td>{$result['nombre_origen']}</td>
+                            <td>{$result['nombre_destino']}</td>
+                            <td>{$result['fecha']}</td>
+                            <td>{$result['precio']}</td>
+                            <td>Borrar</td>
+                        </tr>");
+                    }
+                    
+                    mysqli_free_result($respuesta_enviosxsuc);
+                    mysqli_close($conexion);
+                 ?>
             </tbody>
         </table>
         <div class="paginacion">
