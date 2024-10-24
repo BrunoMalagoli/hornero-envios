@@ -11,11 +11,7 @@
     <header>
         <div class="logo"></div>
         <h1>ENTREGAS</h1>
-        <div class="user-info">
-            <span>MERLO - PERON 25558 - BUE066</span>
-            <span>ABNEFI BACKEND-VIACARGO-STS-1</span>
-            <button class="logout-btn">DESCONECTAR</button>
-        </div>
+
     </header>
 
     <main>

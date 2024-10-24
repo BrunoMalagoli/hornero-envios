@@ -21,12 +21,6 @@
             </div>
             <form>
                 <div class="form-group">
-                    <label for="tipo-lectura">Tipo de lectura:</label>
-                    <select id="tipo-lectura" name="tipo-lectura">
-                        <option>RECEPCIÓN EN PUNTO DE VENTA</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="codigo-barras">Código de envio:</label>
                     <input type="text" id="codigo-envio" name="codigo-barras">
                 </div>

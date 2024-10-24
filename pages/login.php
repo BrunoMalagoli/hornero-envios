@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include("conexion.php");
+include("../config/dbconnect.php");
 
 $usuario = '';
 $contrasena = '';

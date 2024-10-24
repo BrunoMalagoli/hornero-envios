@@ -9,14 +9,7 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="user-info">
-            <div class="logo"></div>
-            <span>MERLO - PERON 25558 - BUE066</span>
-        </div>
-        <div>
-            <span>ABNEFI BACKEND-VIACARGO-STS-1</span>
-            <button class="disconnect-btn">DESCONECTAR</button>
-        </div>
+
     </div>
     <div class="main-container">
         <h1>ADMISIÓN DE ENVÍOS</h1>
