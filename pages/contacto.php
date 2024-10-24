@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("conexion.php");
+include("../config/dbconnect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['mensaje'])) {
@@ -58,9 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <img src="logo.png" alt="Logo de la empresa">
             </div>
             <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#servicios">Servicios</a></li>
-                <li><a href="contact.html" class="active">Contacto</a></li>
+                <li><a href="../index.php">Inicio</a></li>
+                <li><a href="../index.php#servicios">Servicios</a></li>
+                <li><a href="contacto.php" class="active">Contacto</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>
