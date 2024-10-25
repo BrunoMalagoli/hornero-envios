@@ -82,7 +82,7 @@ exit;
                     $condicionales = [];
                     if(!empty($_GET['filtro-codigo'])){
                         $codigo = $_GET['filtro-codigo'];
-                        $condicionales[] = "envio.codigo = '$codigo'";
+                        $condicionales[] = "envio.codigo LIKE '$codigo%'";
                     }
                     if(!empty($_GET['filtro-destino'])){
                         $destino = mysqli_real_escape_string($conexion,$_GET['filtro-destino']);
