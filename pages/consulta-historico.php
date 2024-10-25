@@ -7,9 +7,26 @@
     <link rel="stylesheet" href="../css/consulta-historico.css">
     <link rel="stylesheet" href="../css/global.css">
 </head>
+
 <body>
     <div class="header">
         <div class="logo-space"></div>
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li><a href="admision-envios.php">Admision</a></li>
+                    <li><a href="Captura.php">Captura</a></li>
+                    <li><a href="consulta-historico.php">Historico</a></li>
+                    <li><a href="entrega.php">Entrega</a></li>
+                    <li><a href="inicio-u-suc.php">Inicio</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                    <div class="line4"></div>
+                    <div class="line5"></div>
+                </div>
+            </nav>
         <button class="btn btn-primary">DESCONECTAR</button>
     </div>
     <div class="nav-space"></div>

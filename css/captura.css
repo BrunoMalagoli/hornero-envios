@@ -3,12 +3,24 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
+}
+
+header {
+    width: 100%;
+    color: white;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    text-align: center;
+}
+
+.main-content {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding-top: 60px;
 }
-
 .window {
     background-color: white;
     border: 1px solid #ccc;
