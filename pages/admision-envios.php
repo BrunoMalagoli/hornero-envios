@@ -9,7 +9,30 @@
 </head>
 <body>
     <div class="top-bar">
-
+        <div class="user-info">
+            <div class="logo"></div>
+            <span>MERLO - PERON 25558 - BUE066</span>
+        </div>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="admision-envios.php">Admision</a></li>
+                <li><a href="Captura.php">Captura</a></li>
+                <li><a href="consulta-historico.php">Historico</a></li>
+                <li><a href="entrega.php">Entrega</a></li>
+                <li><a href="inicio-u-suc.php">Inicio</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+                <div class="line4"></div>
+                <div class="line5"></div>
+            </div>
+        </nav>
+        <div>
+            <span>ABNEFI BACKEND-VIACARGO-STS-1</span>
+            <button class="disconnect-btn">DESCONECTAR</button>
+        </div>
     </div>
     <div class="main-container">
         <h1>ADMISIÓN DE ENVÍOS</h1>

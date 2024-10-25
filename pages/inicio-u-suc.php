@@ -19,24 +19,27 @@ exit;
     <link rel="stylesheet" href="../css/inicio-u-suc.css">
 </head>
 <body>
-<header>
+    <header>
         <nav class="navbar">
             <div class="logo">
                 <img src="logo.png" alt="Logo de la empresa">
             </div>
             <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="admision-envios.php">Admision</a></li>
+                <li><a href="Captura.php">Captura</a></li>
+                <li><a href="consulta-historico.php">Historico</a></li>
+                <li><a href="entrega.php">Entrega</a></li>
+                <li><a href="inicio-u-suc.php">Inicio</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>
                 <div class="line2"></div>
                 <div class="line3"></div>
+                <div class="line4"></div>
+                <div class="line5"></div>
             </div>
         </nav>
     </header>
-
     <div class="container">
         <h1>Vista de Sucursal - Gestión de Envíos</h1>
         <button class="filtros-toggle">Mostrar/Ocultar Filtros</button>

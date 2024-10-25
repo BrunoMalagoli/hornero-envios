@@ -18,7 +18,7 @@
             <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="./pages/contacto.php">Contacto</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>

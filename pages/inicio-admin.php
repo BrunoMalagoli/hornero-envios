@@ -1,8 +1,7 @@
 <?php
 
-  session_start();
-  include("../config/dbconnect.php");
-
+session_start();
+include("../config/dbconnect.php");
 //  if(!isset($_SESSION['logueado'])){
 //  header("Location:login.php");
 //  exit;
