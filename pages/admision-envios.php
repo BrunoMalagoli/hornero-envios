@@ -30,7 +30,7 @@
             </div>
         </nav>
         <div>
-            <span>ABNEFI BACKEND-VIACARGO-STS-1</span>
+            <span>ABNEFI BACKEND-STS-1</span>
             <button class="disconnect-btn">DESCONECTAR</button>
         </div>
     </div>

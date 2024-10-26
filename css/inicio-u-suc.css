@@ -110,3 +110,19 @@ th {
 #submit-filtros:hover{
     cursor: pointer;
 }
+
+.action-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 2px;
+}
+
+.delete-btn {
+    color: #f44336;
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+}

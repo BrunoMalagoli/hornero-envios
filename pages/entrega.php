@@ -11,27 +11,7 @@
     <header>
         <div class="logo"></div>
         <h1>ENTREGAS</h1>
-        <nav class="navbar">
-            <ul class="nav-links">
-                <li><a href="admision-envios.php">Admision</a></li>
-                <li><a href="Captura.php">Captura</a></li>
-                <li><a href="consulta-historico.php">Historico</a></li>
-                <li><a href="entrega.php">Entrega</a></li>
-                <li><a href="inicio-u-suc.php">Inicio</a></li>
-            </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-                <div class="line4"></div>
-                <div class="line5"></div>
-            </div>
-        </nav>
-        <div class="user-info">
-            <span>MERLO - PERON 25558 - BUE066</span>
-            <span>ABNEFI BACKEND-VIACARGO-STS-1</span>
-            <button class="logout-btn">DESCONECTAR</button>
-        </div>
+
     </header>
 
     <main>
@@ -94,32 +74,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>990022103080</td>
-                        <td>22103080</td>
-                        <td>GIMENEZ CLAUDIO</td>
-                        <td>NEUQUEN</td>
-                        <td>GERPOWER SRL</td>
-                        <td>30717018776</td>
-                        <td>21/08/2024</td>
-                        <td>1</td>
-                        <td>24.00</td>
-                        <td>0.00</td>
-                        <td><a href="#" class="action-icon"></a></td>
-                    </tr>
-                    <tr>
-                        <td>990022140587</td>
-                        <td>22140587</td>
-                        <td>MELISA PRIETO</td>
-                        <td>MORENO</td>
-                        <td>MICAELA GAITAN</td>
-                        <td>39660910</td>
-                        <td>22/08/2024</td>
-                        <td>1</td>
-                        <td>1.00</td>
-                        <td>7,330.01</td>
-                        <td><a href="#" class="action-icon"></a></td>
-                    </tr>
+                <?php
+                    session_start();
+                    $conexion = require("../config/dbconnect.php");
+                    $sucursal_destino = mysqli_real_escape_string($conexion, $_SESSION['sucursal']);
+
+                    $query = "SELECT envio.*, movimientos.* from envio 
+                    INNER JOIN movimientos 
+                    ON envio.codigo = movimientos.envio_id 
+                    WHERE envio.sucursal_destino = '$sucursal_destino'";
+                    
+                    $resultado = mysqli_query($conexion, $query);
+                    while($contenido = mysqli_fetch_assoc($resultado)){
+                        echo("
+                            <tr>
+                               <td>{$contenido['codigo']}</td> 
+                               <td>{$contenido['codigo']}</td> 
+                               <td>{$contenido['codigo']}</td> 
+                               <td>{$contenido['codigo']}</td> 
+                               <td>{$contenido['codigo']}</td> 
+                               <td>{$contenido['codigo']}</td> 
+                               <td>{$contenido['codigo']}</td> 
+                            </tr> 
+                        ");        
+                    }
+                    ?>
                     <!-- Más filas de ejemplo aquí -->
                 </tbody>
             </table>

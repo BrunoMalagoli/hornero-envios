@@ -15,11 +15,12 @@ exit;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vista de Sucursal - Sistema de Gestión de Envíos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/inicio-u-suc.css">
 </head>
 <body>
-    <header>
+<header>
         <nav class="navbar">
             <div class="logo">
                 <img src="logo.png" alt="Logo de la empresa">
@@ -40,6 +41,7 @@ exit;
             </div>
         </nav>
     </header>
+
     <div class="container">
         <h1>Vista de Sucursal - Gestión de Envíos</h1>
         <button class="filtros-toggle">Mostrar/Ocultar Filtros</button>
@@ -90,16 +92,16 @@ exit;
                     if(!empty($_GET['filtro-destino'])){
                         $destino = mysqli_real_escape_string($conexion,$_GET['filtro-destino']);
                         $destinoU = strtoupper($destino);
-                        $condicionales[] = "sucursal_destino.nombre = '$destinoU'";
+                        $condicionales[] = "sucursal_destino.nombre LIKE '%$destinoU%'";
                     }
                     if(!empty($_GET['filtro-origen'])){
                         $origen = mysqli_real_escape_string($conexion,$_GET['filtro-origen']);
                         $origenU = strtoupper($origen);
-                        $condicionales[] = "sucursal_origen.nombre = '$origenU'";
+                        $condicionales[] = "sucursal_origen.nombre LIKE '%$origenU%'";
                     }
                     if(!empty($_GET['filtro-destinatario'])){
                         $destinatario = (int)$_GET['filtro-destinatario'];
-                        $condicionales[] = "envio.destinatario = '$destinatario'";
+                        $condicionales[] = "envio.destinatario LIKE '%$destinatario%'";
                     }
                     $sql = "
                     SELECT envio.*, sucursal_origen.nombre AS nombre_origen, sucursal_destino.nombre AS nombre_destino
@@ -122,7 +124,7 @@ exit;
                             <td>{$result['nombre_destino']}</td>
                             <td>{$result['fecha']}</td>
                             <td>{$result['precio']}</td>
-                            <td>Borrar</td>
+                            <td><button value=\"{$result['codigo']}\" class=\"eliminarEnvioEnSucursal action-btn delete-btn\"><i class=\"fas fa-trash\"></i></button></td>
                         </tr>");
                     }
                     
