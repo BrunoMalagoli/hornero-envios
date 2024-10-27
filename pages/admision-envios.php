@@ -1,229 +1,223 @@
+<?php
+session_start();
+$_SESSION["sucursal_id"]= "MERLO";
+/*include("../config/dbconnect.php");
+
+if(!isset($_SESSION['logueado'])){
+header("Location:login.php");
+exit;
+}
+
+*/
+$precio = 0; 
+$mostrarFormulario = false; 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['accion'])) {
+        if ($_POST['accion'] === 'ver_precio') {
+            // Calculamos el precio
+            include 'funciones.php';
+            if (!empty($_POST['peso']) && !empty($_POST['largo']) && !empty($_POST['ancho']) && !empty($_POST['alto'])) {
+                $precio = calculo_Envio($_POST);
+                $mostrarFormulario = true; 
+            }
+        }
+    }
+}
+
+function obtenerValor($campo) {
+    return isset($_POST[$campo]) ? htmlspecialchars($_POST[$campo]) : '';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admisión de Envíos</title>
-    <link rel="stylesheet" href="../css/admision.css">
-    <link rel="stylesheet" href="../css/global.css">
-</head>
-<body>
-    <div class="top-bar">
-        <div class="user-info">
-            <div class="logo"></div>
-            <span>MERLO - PERON 25558 - BUE066</span>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admisión de Envíos</title>
+        <link rel="stylesheet" href="../css/admision.css">
+        <link rel="stylesheet" href="../css/global.css">
+    </head>
+    <body>
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="logo"><img src="../images/LOGO_TRANSPARENTE.png" alt="Logo"></div>
+            </div>
+            <div>
+                <span>HORNERITO</span>
+                <button class="disconnect-btn">DESCONECTAR</button>
+            </div>
         </div>
-        <nav class="navbar">
-            <ul class="nav-links">
-                <li><a href="admision-envios.php">Admision</a></li>
-                <li><a href="Captura.php">Captura</a></li>
-                <li><a href="consulta-historico.php">Historico</a></li>
-                <li><a href="entrega.php">Entrega</a></li>
-                <li><a href="inicio-u-suc.php">Inicio</a></li>
-            </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-                <div class="line4"></div>
-                <div class="line5"></div>
-            </div>
-        </nav>
-        <div>
-            <span>ABNEFI BACKEND-STS-1</span>
-            <button class="disconnect-btn">DESCONECTAR</button>
-        </div>
-    </div>
-    <div class="main-container">
-        <h1>ADMISIÓN DE ENVÍOS</h1>
-        <form>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Pago</label>
-                    <div class="radio-group">
-                        <input type="radio" id="origen" name="pago">
-                        <label for="origen">Origen</label>
-                        <input type="radio" id="destino" name="pago" checked>
-                        <label for="destino">Destino</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Entrega</label>
-                    <div class="radio-group">
-                        <input type="radio" id="agencia" name="entrega" checked>
-                        <label for="agencia">Agencia</label>
-                        <input type="radio" id="domicilio" name="entrega">
-                        <label for="domicilio">Domicilio</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Fecha Envío</label>
-                    <div class="date-input">
-                        <input type="text" value="05/09/2024">
-                        <span class="icon"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <span class="icon" style="float: right;"></span>
-                </div>
-            </div>
-            <div class="bordered-section">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Origen</label>
-                        <select>
-                            <option>1722 MERLO ARGENTINA-054 PNG</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Destino</label>
-                        <select>
-                            <option>ARGENTINA-054</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>C.P./Pob</label>
-                        <input type="text" value="7600 MAR DEL PLATA">
-                    </div>
-                    <div class="form-group">
-                        <label>Descuento</label>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Piezas</label>
-                        <input type="number" value="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Peso (Kg)</label>
-                        <input type="number" value="2,00">
-                    </div>
-                    <div class="form-group">
-                        <label>Largo (cm)</label>
-                        <input type="number" value="2">
-                    </div>
-                    <div class="form-group">
-                        <label>Ancho (cm)</label>
-                        <input type="number" value="2">
-                    </div>
-                    <div class="form-group">
-                        <label>Alto (cm)</label>
-                        <input type="number" value="2">
-                    </div>
-                    <div class="form-group">
-                        <label>Volumen (m3)</label>
-                        <input type="number" value="0,00">
-                    </div>
-                    <div class="form-group">
-                        <label>Valor Mercancía</label>
-                        <input type="number" value="40000">
-                    </div>
-                </div>
-            </div>
-            <div class="bottom-section">
-                <div class="bottom-fields">
-                    <div class="form-group">
-                        <label>Descripción General</label>
-                        <input type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Referencia</label>
-                        <input type="text">
-                    </div>
-                    <div class="form-group">
-                        <label>Observaciones</label>
-                        <input type="text">
-                    </div>
-                </div>
-                <div class="view-price-btn">
-                    <button type="button" class="btn btn-save">VER PRECIO</button>
-                </div>
-            </div>
-            <div class="price-box">
-                VÍA CARGO ESTÁNDAR<br>
-                08/09/2024 09:00<br>
-                11.650,00
-            </div>
-            <div class="sender-receiver-section">
-                <div class="rol-form-section">
-                    <!-- REMITENTE -->
-                     <h2>REMITENTE</h2>
-                    
+        <div class="main-container">
+            <h1>ADMISIÓN DE ENVÍOS</h1>
+
+            
+            <form method="post" action="">
+                <div class="bordered-section">
+                    <div class="form-row">
                         <div class="form-group">
-                            <label>Remitente</label>
-                            <input type="text">
+                            <label>Origen</label>
+                            <input type="text" name="sucursal_origen" value="<?php echo $_SESSION['sucursal_id']; ?>" readonly>
                         </div>
-                    
-                    
                         <div class="form-group">
-                            <label>DNI</label>
-                            <input type="text">
+                            <label>Destino</label>
+                                <select name="sucursal_destino" required>
+                                    <option value="">Seleccione un destino</option>
+                                    <?php
+                                    include '../config/dbconnect.php';
+                                    $consulta = mysqli_query($conexion, "SELECT nombre FROM sucursal;");
+                                    if ($consulta) {
+                                        while($resultados = mysqli_fetch_assoc($consulta)) {
+                                            $selected = ($resultados['nombre'] == obtenerValor('sucursal_destino')) ? 'selected' : '';
+                                            echo '<option value="' . $resultados['nombre'] . '" ' . $selected . '>' . $resultados['nombre'] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option>No hay sucursales disponibles</option>';
+                                    }
+                                    ?>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha Envío</label>
+                            <input type="text" name="fecha" value="<?php echo date('d/m/Y'); ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Peso (Kg)</label>
+                            <input type="text" name="peso" pattern="[0-9]+" maxlength="2" placeholder="Kg." required value="<?php echo obtenerValor('peso'); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Largo (cm)</label>
+                            <input type="text" name="largo" pattern="[0-9]+" maxlength="3" placeholder="Cm." required value="<?php echo obtenerValor('largo'); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Ancho (cm)</label>
+                            <input type="text" name="ancho" pattern="[0-9]+" maxlength="3" placeholder="Cm." required value="<?php echo obtenerValor('ancho'); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Alto (cm)</label>
+                            <input type="text" name="alto" pattern="[0-9]+" maxlength="3" placeholder="Cm." required value="<?php echo obtenerValor('alto'); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Valor Mercancía</label>
+                            <input type="text" name="valor" pattern="[0-9]+" maxlength="6" placeholder="Valor en $" required value="<?php echo obtenerValor('valor'); ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-section">
+                    <div class="bottom-fields">
+                        <div class="form-group">
+                            <label>Descripción General</label>
+                            <input type="text" name="descripcion" value="<?php echo obtenerValor('descripcion'); ?>" required>
+                        </div>
+                    </div>
+                    <div class="view-price-btn">
+                        <button type="submit" class="btn btn-save" name="accion" value="ver_precio">VER PRECIO</button>
+                    </div>
+                </div>
+            </form>                           
+                <!-- Muestra el precio -->
+                <div class="price-box">
+                    HORNERO ENVÍOS<br>
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($precio) && $precio > 0) {
+                        echo "<p>Precio: \$$precio</p>";
+                    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'ver_precio') {
+                        echo "<p>Por favor, complete todos los campos para calcular el precio.</p>";
+                    }
+                    ?>
+                </div>
+            
+            <form id="senderReceiverForm" method="POST" action="remito.php" target="_blank" onsubmit="return validarGuardar()">        
+                <!-- Sección de remitente y destinatario -->
+                <div class="sender-receiver-section">
+                    <div class="rol-form-section">
+                        <h2>REMITENTE</h2>
+                        <div class="form-group">
+                            <label>CUIL</label>
+                            <input type="text" name="cuil_remitente" required>
                         </div>
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text">
+                            <input type="text" name="nombre_remitente" required>
                         </div>
-                    
-                    
                         <div class="form-group">
                             <label>Dirección</label>
-                            <input type="text">
+                            <input type="text" name="direccion_remitente" required>
                         </div>
-                   
-                    
                         <div class="form-group">
                             <label>Teléfono</label>
-                            <input type="text">
+                            <input type="text" name="telefono_remitente" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="text">
+                            <input type="text" name="email_remitente" required>
                         </div>
-                    
-                </div>
-                <div class="rol-form-section">
-                    <!-- DESTINATARIO -->
+                    </div>
+                    <div class="rol-form-section">
                         <h2>DESTINATARIO</h2>
                         <div class="form-group">
-                            <label>Destinatario</label>
-                            <input type="text">
-                        </div>
-                    
-                    
-                        <div class="form-group">
-                            <label>DNI</label>
-                            <input type="text">
+                            <label>CUIL</label>
+                            <input type="text" name="cuil_destinatario" required>
                         </div>
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text">
+                            <input type="text" name="nombre_destinatario" required>
                         </div>
-                    
-                    
                         <div class="form-group">
                             <label>Dirección</label>
-                            <input type="text">
+                            <input type="text" name="direccion_destinatario" required>
                         </div>
-                  
-                    
                         <div class="form-group">
                             <label>Teléfono</label>
-                            <input type="text">
+                            <input type="text" name="telefono_destinatario" required>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="text">
+                            <input type="text" name="email_destinatario" required>
                         </div>
+                    </div>
                 </div>
                 
-                
-            </div>
-            <div class="buttons">
-                <button type="button" class="btn btn-cancel">CANCELAR</button>
-                <button type="submit" class="btn btn-save">GUARDAR</button>
-            </div>
-        </form>
-    </div>
-</body>
+                <input type="hidden" name="peso" value="<?php echo isset($_POST['peso']) ? $_POST['peso'] : ''; ?>">
+                <input type="hidden" name="largo" value="<?php echo isset($_POST['largo']) ? $_POST['largo'] : ''; ?>">
+                <input type="hidden" name="ancho" value="<?php echo isset($_POST['ancho']) ? $_POST['ancho'] : ''; ?>">
+                <input type="hidden" name="alto" value="<?php echo isset($_POST['alto']) ? $_POST['alto'] : ''; ?>">
+                <input type="hidden" name="valor" value="<?php echo isset($_POST['valor']) ? $_POST['valor'] : ''; ?>">
+                <input type="hidden" name="descripcion" value="<?php echo isset($_POST['descripcion']) ? $_POST['descripcion'] : ''; ?>">
+                <input type="hidden" name="sucursal_origen" value="<?php echo $_SESSION['sucursal_id']; ?>">
+                <input type="hidden" name="sucursal_destino" value="<?php echo isset($_POST['sucursal_destino']) ? $_POST['sucursal_destino'] : ''; ?>">
+                <input type="hidden" name="precio" value="<?php echo $precio; ?>">
+                <!-- Botón para guardar -->
+                <div class="buttons">
+                    <button type="submit" class="btn btn-save" name="accion" value="guardar">GUARDAR</button>
+                </div>
+            </form>
+        </div>
+
+        <script>
+        function validarGuardar() {
+            var precio = <?php echo $precio; ?>;
+            if (precio <= 0) {
+                alert('Por favor, calcule el precio antes de guardar.');
+                return false;
+            }
+            // Si el precio es válido, recargamos la página actual después de un breve retraso
+            setTimeout(function() {
+                window.location.href = window.location.pathname;
+            }, 100);
+            return true;
+        }
+
+        // Mostrar u ocultar el formulario según el valor de $mostrarFormulario
+        document.addEventListener('DOMContentLoaded', function() {
+            var senderReceiverForm = document.getElementById('senderReceiverForm');
+            senderReceiverForm.style.display = <?php echo $mostrarFormulario ? "'block'" : "'none'"; ?>;
+        });
+        </script>
+    </body>
 </html>
+

@@ -1,0 +1,75 @@
+body { 
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.pagina {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    padding: 20mm;
+    box-sizing: border-box;
+    page-break-after: always;
+}
+
+.titulo {
+    text-align: center;
+}
+
+table { 
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td { 
+    border: 1px solid black; 
+    padding: 5px; 
+    text-align: left; 
+}
+
+.header { 
+    margin-bottom: 20px; 
+}
+
+.tablas-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tabla-envios {
+    width: 30%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tabla-envios th, .tabla-envios td {
+    border: 1px solid black;
+}
+
+.tabla-envios th {
+    background-color: #f2f2f2;
+}
+
+.footer { 
+    margin-top: 20px; 
+}
+
+.signature-box { 
+    border: 1px solid black; 
+    height: 50px; 
+    margin-top: 10px; 
+}
+
+.numero-pagina {
+    text-align: right;
+    margin-top: 10px;
+}
+
+@media print {
+    .pagina {
+        page-break-after: always;
+    }
+}

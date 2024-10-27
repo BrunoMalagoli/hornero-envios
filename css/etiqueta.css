@@ -1,0 +1,43 @@
+body { 
+    font-family: monospace; 
+    margin: 0; 
+    padding: 20px; 
+}
+.etiqueta { 
+    width: 400px; 
+    height: 393px; 
+    border: 2px solid black; 
+    padding: 10px; 
+}
+
+.destino { 
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    text-align: center; 
+
+}
+
+.info { 
+    margin-bottom: 10px; 
+}
+
+.grid { 
+    display: grid; 
+    grid-template-columns: 2fr 2fr; 
+    gap: 5px; 
+    margin-bottom: 10px; 
+}
+
+.box { 
+    border: 1px solid black; 
+    padding: 12px; 
+}
+
+.full-width { 
+    grid-column: 1 / -1; 
+}
+
+#barcode {
+    margin-left: 97px;
+}
