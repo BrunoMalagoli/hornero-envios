@@ -36,6 +36,11 @@
         }
         else echo "no se pudo guardar envio";
 
+        $codigo_en_remito = mysqli_query($conexion, "UPDATE remito SET envio_id = '$envio_id' WHERE id = '$remito_id';");
+        if ($codigo_en_remito == 0){
+            echo "No se pudo cargar numero de envio en remito";
+        }
+
         $estado= mysqli_query($conexion,"INSERT INTO movimientos (fecha, envio_id, estados_id) values ('$fecha', '$envio_id',1)");
         if ($estado){
             $estado = mysqli_insert_id($conexion);

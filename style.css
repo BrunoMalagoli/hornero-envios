@@ -24,9 +24,10 @@ body {
     height: 40px;
 }
 
-.nav-links {
+.nav-links:hover {
     display: flex;
     list-style: none;
+    
 }
 
 .nav-links li {
@@ -36,6 +37,7 @@ body {
 .nav-links a {
     color: #fff;
     text-decoration: none;
+    padding: 7px 7px;
 }
 
 .burger {
@@ -219,17 +221,19 @@ footer {
         align-items: center;
         position: absolute;
         right: 0;
-        top: 70px;
-        background-color: #333;
+        top: 86px;
+        background-color: #4f518c;
         width: 100%;
         transform: translateX(100%);
         transition: transform 0.5s ease-in;
+        z-index: 11;
     }
 
     .nav-active li {
         margin: 1rem 0;
     }
-
+    
+    
     .nav-active.show {
         transform: translateX(0%);
     }

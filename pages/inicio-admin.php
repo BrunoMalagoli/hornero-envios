@@ -102,6 +102,21 @@ if (isset($_POST["registrar_sucursal"])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#">Cerrar Sesión</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </header>
     <div class="container">
         <h2>Registro de Usuarios</h2>
         <form id="user-form" method="POST">
@@ -345,5 +360,6 @@ if (isset($_POST['eliminar_usuario'])) {
         alert("Formulario de sucursal enviado");
     });
     </script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

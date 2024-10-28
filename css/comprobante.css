@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.comprobante {
+    background-color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    max-width: 200px;
+    height: auto;
+}
+
+.datos-empresa {
+    text-align: right;
+    padding: 25px;
+}
+
+.datos-empresa h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.datos-empresa p {
+    margin: 5px 0;
+}
+
+main h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.info-entrega {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.campo {
+    margin-bottom: 10px;
+}
+
+.campo label {
+    font-weight: bold;
+    display: inline-block;
+    width: 150px;
+}
+
+.firma-seccion {
+    margin-top: 40px;
+}
+
+.campo-firma {
+    margin-bottom: 20px;
+}
+
+.campo-firma label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.linea {
+    border-bottom: 1px solid #000;
+    width: 50%;
+    height: 1px;
+}

@@ -8,11 +8,26 @@
         <link rel="stylesheet" href="../css/global.css">
     </head>
     <body>
-        <div class="header">
-            <div class="logo-space"><img class="logo" src="../images/LOGO_TRANSPARENTE.png" alt="LOGO"></div>
-            <button class="btn btn-primary">DESCONECTAR</button>
-        </div>
-        <div class="nav-space"></div>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="admision-envios.php">Admision</a></l>
+                    <li><a href="captura.php">Captura</a></li>
+                    <li><a style="background-color: #170f38" href="consulta-historico.php">Historico</a></li>
+                    <li><a href="entrega.php">Entrega</a></li>
+                    <li><a href="inicio-u-suc.php">Inicio</a></li>
+                    <li><a href="#">Cerrar Sesión</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </header>
         <div class="container">
 
             <h1>HISTÓRICO DE MOVIMIENTOS</h1>
@@ -62,5 +77,6 @@
                 }
             ?>    
         </div>   
+        <script src="../js/script.js"></script>
     </body>
 </html>

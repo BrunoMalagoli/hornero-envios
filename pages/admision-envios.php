@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['accion'])) {
         if ($_POST['accion'] === 'ver_precio') {
             // Calculamos el precio
-            include 'funciones.php';
+            include '../services/funciones.php';
             if (!empty($_POST['peso']) && !empty($_POST['largo']) && !empty($_POST['ancho']) && !empty($_POST['alto'])) {
                 $precio = calculo_Envio($_POST);
                 $mostrarFormulario = true; 
@@ -40,18 +40,29 @@ function obtenerValor($campo) {
         <link rel="stylesheet" href="../css/global.css">
     </head>
     <body>
-        <div class="top-bar">
-            <div class="user-info">
-                <div class="logo"><img src="../images/LOGO_TRANSPARENTE.png" alt="Logo"></div>
-            </div>
-            <div>
-                <span>HORNERITO</span>
-                <button class="disconnect-btn">DESCONECTAR</button>
-            </div>
-        </div>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
+                </div>
+                <ul class="nav-links">
+                    <li><a style="background-color: #170f38" href="admision-envios.php">Admision</a></l>
+                    <li><a href="captura.php">Captura</a></li>
+                    <li><a href="consulta-historico.php">Historico</a></li>
+                    <li><a href="entrega.php">Entrega</a></li>
+                    <li><a href="inicio-u-suc.php">Inicio</a></li>
+                    <li><a href="#">Cerrar Sesión</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </header>
         <div class="main-container">
             <h1>ADMISIÓN DE ENVÍOS</h1>
-
+            
             
             <form method="post" action="">
                 <div class="bordered-section">
@@ -218,6 +229,7 @@ function obtenerValor($campo) {
             senderReceiverForm.style.display = <?php echo $mostrarFormulario ? "'block'" : "'none'"; ?>;
         });
         </script>
+        <script src="../js/script.js"></script>
     </body>
 </html>
 

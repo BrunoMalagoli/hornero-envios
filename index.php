@@ -7,18 +7,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
     <link rel="stylesheet" href="./css/global.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="logo.png" alt="Logo de la empresa">
+                <img src="images/LOGO_TRANSPARENTE.png" alt="Logo de la empresa">
             </div>
             <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="index.php">Inicio</a></li>
                 <li><a href="#servicios">Servicios</a></li>
                 <li><a href="./pages/contacto.php">Contacto</a></li>
+                <li><a href=".login.php">Login Usuarios</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>
@@ -33,21 +34,21 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="slide1.jpg" alt="Slide 1">
+                        <img src="images/index1.jpg" alt="Slide 1">
                         <div class="slide-content">
                             <h1>Envíos rápidos y seguros</h1>
                             <p>Confía en nosotros para tus envíos</p>
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="slide2.jpg" alt="Slide 2">
+                        <img src="images/index2.jpg" alt="Slide 1">
                         <div class="slide-content">
                             <h1>Cobertura nacional</h1>
                             <p>Llegamos a todos los rincones del país</p>
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <img src="slide3.jpg" alt="Slide 3">
+                        <img src="images/index3.jpg" alt="Slide 1">
                         <div class="slide-content">
                             <h1>Tecnología de punta</h1>
                             <p>Seguimiento en tiempo real de tus envíos</p>
@@ -77,7 +78,7 @@
                     <button type="submit">Cotizar</button>
                 </form>
                 <div id="resultadoCotizacion"></div>
-                <form id="seguimientoForm" class="form">
+                <form id="seguimientoForm" method="POST" class="form">
                     <h2>Seguimiento de envío</h2>
                     <input type="text" placeholder="Código de seguimiento" required>
                     <button type="submit">Rastrear</button>

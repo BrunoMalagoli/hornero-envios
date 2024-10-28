@@ -52,23 +52,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img src="logo.png" alt="Logo de la empresa">
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.php">Inicio</a></li>
-                <li><a href="../index.php#servicios">Servicios</a></li>
-                <li><a href="contacto.php" class="active">Contacto</a></li>
-            </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
-        </nav>
-    </header>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="../index.php">Inicio</a></li>
+                    <li><a style="background-color: #170f38" href="./pages/contacto.php">Contacto</a></li>
+                </ul>
+                <div class="burger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </header>
 
     <main>
         <section id="contacto" class="contact-section">
@@ -139,7 +138,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>&copy; 2023 Tu Empresa de Envíos. Todos los derechos reservados.</p>
         </div>
     </footer>
-
-    <script src="script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>
