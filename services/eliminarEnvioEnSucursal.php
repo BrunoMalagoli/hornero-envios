@@ -1,7 +1,8 @@
 <?php
+session_start();
 require("../config/dbconnect.php");
 
-if(isset($_GET['delete']) && !empty($_GET['delete'])){
+if(isset($_GET['delete']) && !empty($_GET['delete']) /*&& isset($_SESSION['logueado'])*/){
     $codigo_env_eliminar = mysqli_real_escape_string($conexion, $_GET['delete']);
     $respuesta = mysqli_query($conexion , "DELETE FROM envio WHERE envio.codigo = '$codigo_env_eliminar'");
     if ($respuesta) {

@@ -6,9 +6,11 @@
     <title>ENTREGAS</title>
     <link rel="stylesheet" href="../css/entrega.css">
     <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-        <header>
+    <header>
             <nav class="navbar">
                 <div class="logo">
                     <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
@@ -35,32 +37,18 @@
             <form action="#" method="GET">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="numero">Número / Referencia / Localizador</label>
-                        <input type="text" id="numero" name="numero">
-                    </div>
-                    <div class="form-group">
-                        <label for="origen">Origen</label>
-                        <input type="text" id="origen" name="origen">
+                        <label for="numero">Código</label>
+                        <input type="text" id="numero" name="filter-codigo">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="remitente">Remitente</label>
-                        <input type="text" id="remitente" name="remitente">
+                        <input type="text" id="remitente" name="filter-remitente">
                     </div>
                     <div class="form-group">
                         <label for="destinatario">Destinatario</label>
-                        <input type="text" id="destinatario" name="destinatario">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="desde_fecha">Desde Fecha</label>
-                        <input type="date" id="desde_fecha" name="desde_fecha">
-                    </div>
-                    <div class="form-group">
-                        <label for="hasta_fecha">Hasta Fecha</label>
-                        <input type="date" id="hasta_fecha" name="hasta_fecha">
+                        <input type="text" id="destinatario" name="filter-destinatario">
                     </div>
                 </div>
                 <div class="form-actions">
@@ -75,43 +63,73 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Ref. Interna</th>
-                        <th>Número</th>
+                        <th>Código</th>
                         <th>Remitente</th>
                         <th>Origen</th>
                         <th>Destinatario</th>
-                        <th>DNI</th>
-                        <th>Fecha</th>
-                        <th>Bultos</th>
-                        <th>Peso</th>
-                        <th>Valor</th>
+                        <th>CUIL - Destinatario</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                     session_start();
-                    $conexion = require("../config/dbconnect.php");
-                    $sucursal_destino = mysqli_real_escape_string($conexion, $_SESSION['sucursal']);
-
-                    $query = "SELECT envio.*, movimientos.* from envio 
-                    INNER JOIN movimientos 
-                    ON envio.codigo = movimientos.envio_id 
-                    WHERE envio.sucursal_destino = '$sucursal_destino'";
+                    require("../config/dbconnect.php");
+                    if (!$conexion) {
+                        die("Error de conexión: " . mysqli_connect_error());
+                    }
                     
+                    $_SESSION['sucursal'] = 2;
+                    $sucursal_destino = $_SESSION['sucursal'];
+
+                    if(!empty($_GET['filter-codigo'])){
+                        $codigo = mysqli_real_escape_string($conexion , $_GET['filter-codigo']);
+                        $condiciones[] = "envio.codigo LIKE '%$codigo%'";
+                    }
+                    if(!empty($_GET['filter-origen'])){
+                        $origen = mysqli_real_escape_string($conexion , $_GET['filter-origen']);
+                        $condiciones[] = "envio.codigo LIKE '%$origen%'";
+                    }
+                    $condiciones = [];
+                    $query = "SELECT envio.*,
+                    sucursal_de_origen.id , 
+                    sucursal_de_origen.nombre AS nombre_suc_origen ,
+                    movimientos.*, 
+                    estados.*,  
+                    cliente_remitente.nombre AS nombre_remitente, 
+                    cliente_destinatario.cuil AS cuil_destinatario,
+                    cliente_destinatario.nombre AS nombre_destinatario
+                    FROM envio 
+                    INNER JOIN movimientos ON envio.codigo = movimientos.envio_id 
+                    INNER JOIN estados ON movimientos.estados_id = estados.id 
+                    INNER JOIN cliente AS cliente_remitente ON cliente_remitente.id = envio.remitente
+                    INNER JOIN cliente AS cliente_destinatario ON cliente_destinatario.id = envio.destinatario
+                    INNER JOIN sucursal AS sucursal_de_origen ON sucursal_de_origen.id = envio.sucursal_origen 
+                    WHERE envio.sucursal_destino = '$sucursal_destino' 
+                    AND envio.codigo NOT IN (
+                    SELECT movimientos.envio_id 
+                    FROM movimientos 
+                    WHERE estados_id = 5
+                    ); ";
                     $resultado = mysqli_query($conexion, $query);
-                    while($contenido = mysqli_fetch_assoc($resultado)){
-                        echo("
-                            <tr>
-                               <td>{$contenido['codigo']}</td> 
-                               <td>{$contenido['codigo']}</td> 
-                               <td>{$contenido['codigo']}</td> 
-                               <td>{$contenido['codigo']}</td> 
-                               <td>{$contenido['codigo']}</td> 
-                               <td>{$contenido['codigo']}</td> 
-                               <td>{$contenido['codigo']}</td> 
-                            </tr> 
-                        ");        
+                    if (!$resultado) {
+                        die("Error en la consulta: " . mysqli_error($conexion));
+                    }
+                    if (mysqli_num_rows($resultado) > 0) {
+                        while ($contenido = mysqli_fetch_assoc($resultado)) {
+                            echo("
+                                <tr>
+                                    <td>" . htmlspecialchars($contenido['codigo']) . "</td> 
+                                    <td>" . htmlspecialchars($contenido['nombre_remitente']) . "</td> 
+                                    <td>" . htmlspecialchars($contenido['nombre_suc_origen']) . "</td> 
+                                    <td>" . htmlspecialchars($contenido['nombre_destinatario']) . "</td> 
+                                    <td>" . htmlspecialchars($contenido['cuil_destinatario']) . "</td> 
+                                    <td><button value=\"{$contenido['codigo']}\" class=\"entregaEnvio action-btn\"><i class=\"fa-solid fa-arrow-right-from-bracket\"></i></button></td>
+                                </tr> 
+                            ");        
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>No se encontraron resultados.</td></tr>";
                     }
                     ?>
                     <!-- Más filas de ejemplo aquí -->
@@ -119,6 +137,6 @@
             </table>
         </section>
     </main>
-    <script src="../js/script.js"></script>
+    <script src="../js/entrega.js"></script>
 </body>
 </html>

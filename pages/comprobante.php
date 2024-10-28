@@ -1,19 +1,24 @@
 <?php
-// Datos de ejemplo (reemplaza estos con datos reales de tu sistema)
-$empresa = [
-    'nombre' => 'HORNERO ENVIOS',
-    'direccion' => 'PARIS 532',
-    'telefono' => '0303456',
-    'email' => 'hornero@envios.com'
-];
-
-$entrega = [
-    'sucursal_destino' => 'Sucursal Destino',
-    'fecha_entrega' => date('d/m/Y'),
-    'codigo' => 'COD' . rand(1000000, 9999999),
-    'destinatario' => 'Nombre del Destinatario',
-    'cuil_destinatario' => '20-12345678-9'
-];
+    require("../config/dbconnect.php");
+    $cod_entrega = mysqli_real_escape_string($conexion, $_GET['cod_entrega']);
+    $respuesta = mysqli_query($conexion, 
+    "SELECT envio.*, cliente.*, sucursal_destino.nombre AS suc_destino  
+    FROM envio 
+    INNER JOIN cliente ON envio.destinatario = cliente.id
+    INNER JOIN sucursal AS sucursal_destino ON envio.sucursal_destino = sucursal_destino.id 
+    WHERE envio.codigo = '$cod_entrega'"
+    );
+    if($respuesta){
+        $contenido = mysqli_fetch_assoc($respuesta);
+    }else{
+        echo "Ocurrio un error en la consulta" . mysqli_error($conexion);
+    }
+    $empresa = [
+        'nombre' => 'HORNERO ENVIOS',
+        'direccion' => 'PARIS 532',
+        'telefono' => '0303456',
+        'email' => 'hornero@envios.com'
+    ];
 ?>
 
 <!DOCTYPE html>
@@ -43,23 +48,23 @@ $entrega = [
             <div class="info-entrega">
                 <div class="campo">
                     <label>Sucursal Destino:</label>
-                    <span><?php echo $entrega['sucursal_destino']; ?></span>
+                    <span><?php echo $contenido['suc_destino']; ?></span>
                 </div>
                 <div class="campo">
                     <label>Fecha de Entrega:</label>
-                    <span><?php echo $entrega['fecha_entrega']; ?></span>
+                    <span><?php echo date('d-m-Y'); ?></span>
                 </div>
                 <div class="campo">
                     <label>Código:</label>
-                    <span><?php echo $entrega['codigo']; ?></span>
+                    <span><?php echo $cod_entrega; ?></span>
                 </div>
                 <div class="campo">
                     <label>Destinatario:</label>
-                    <span><?php echo $entrega['destinatario']; ?></span>
+                    <span><?php echo $contenido['nombre']; ?></span>
                 </div>
                 <div class="campo">
                     <label>CUIL Destinatario:</label>
-                    <span><?php echo $entrega['cuil_destinatario']; ?></span>
+                    <span><?php echo $contenido['cuil']; ?></span>
                 </div>
             </div>
 
