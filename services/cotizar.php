@@ -1,6 +1,6 @@
 <?php
     require("calcularDistancia.php");
-
+    //HAY QUE HACER LOS SELECT EN ORIGEN Y DESTINO DE COTIZAR FORM
     $peso = $_POST['peso'];
     $alto = $_POST['alto'];
     $ancho = $_POST['ancho'];
@@ -39,21 +39,21 @@
         $precio_x_anc = 3;
         $precio_x_lar = 2;
 
-        $distancia =  obtenerDistancia($origen, $destino);
+        // $distancia =  obtenerDistancia($origen, $destino);
         $precio_envio = 0;
         
-        if ($distancia < 0) {
-            echo "Error: la distancia no puede ser negativa.";
-            return;
-        } elseif ($distancia <= 200) {
-            $precio_envio = 1500;
-        } elseif ($distancia <= 400) {
-            $precio_envio = 2500;
-        } elseif ($distancia <= 600) {
-            $precio_envio = 4000;
-        } elseif ($distancia <= 850) {
-            $precio_envio = 5000;
-        }
+        // if ($distancia < 0) {
+        //     echo "Error: la distancia no puede ser negativa.";
+        //     return;
+        // } elseif ($distancia <= 200) {
+        //     $precio_envio = 1500;
+        // } elseif ($distancia <= 400) {
+        //     $precio_envio = 2500;
+        // } elseif ($distancia <= 600) {
+        //     $precio_envio = 4000;
+        // } elseif ($distancia <= 850) {
+        //     $precio_envio = 5000;
+        // }
 
         $resultado = $precio_base + ($precio_x_kg * $peso) + ($precio_x_alt * $alto) + ($precio_x_anc * $ancho) + ($precio_x_lar * $largo) + $precio_envio;   
     } 

@@ -23,6 +23,7 @@ function obtenerDistancia($origen, $destino) {
     $respuesta = file_get_contents($url, false, $context);
     // print_r($respuesta);
     // Verificar si la solicitud fue exitosa
+
     if ($respuesta === false) {
         return "Error: No se pudo conectar a la API.";
     }

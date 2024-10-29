@@ -145,7 +145,7 @@ function obtenerValor($campo) {
                     ?>
                 </div>
             
-            <form id="senderReceiverForm" method="POST" action="remito.php" target="_blank" onsubmit="return validarGuardar()">        
+            <form id="senderReceiverForm" method="POST" action="factura.php" target="_blank" onsubmit="return validarGuardar()">        
                 <!-- Sección de remitente y destinatario -->
                 <div class="sender-receiver-section">
                     <div class="rol-form-section">

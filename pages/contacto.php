@@ -16,13 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $header="From: ".$nombre."<".$email.">";
 
-        $enviado = mail($destino,$asunto,$mensaje,$header);
+        // $enviado = mail($destino,$asunto,$mensaje,$header);
 
-        if($enviado == true){
-            echo "Su correo ha sido enviado.";
-        }else{
-            echo "Hubo un error en el envio del mail.";
-        }
+        // if($enviado == true){
+        //     echo "Su correo ha sido enviado.";
+        // }else{
+        //     echo "Hubo un error en el envio del mail.";
+        // }
 
         $query = "INSERT INTO reclamos (descripcion, nombre, apellido, email, fecha) 
                   VALUES ('$mensaje', '$nombre', '$apellido', '$email', '$fecha')";

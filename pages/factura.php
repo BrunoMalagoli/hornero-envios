@@ -20,17 +20,17 @@
         $resultado = mysqli_fetch_assoc($sucursal_dest);
         $suc_dest_id = $resultado['id'];
 
-        $remito= mysqli_query($conexion, "INSERT INTO remito (descripcion, fecha) values ('$_POST[descripcion]','$fecha')");
-        if ($remito){
-            $remito_id = mysqli_insert_id($conexion);
+        $factura= mysqli_query($conexion, "INSERT INTO factura (descripcion, fecha) values ('$_POST[descripcion]','$fecha')");
+        if ($factura){
+            $factura_id = mysqli_insert_id($conexion);
         }
-        else echo "no se pudo guardar remito";
+        else echo "no se pudo guardar factura";
 
         $sucursal_origen = mysqli_query($conexion,"SELECT id from sucursal where nombre='$_POST[sucursal_origen]';");
         $resultado = mysqli_fetch_assoc($sucursal_origen);
         $suc_orig_id = $resultado['id'];
 
-        $envio= mysqli_query($conexion, "INSERT INTO envio (fecha, peso, alto, ancho, largo, destinatario, remitente, sucursal_destino, sucursal_origen, remito_id, precio, valor_seguro, descripcion) values ('$fecha','$_POST[peso]','$_POST[alto]','$_POST[ancho]','$_POST[largo]','$destinatario_id','$remitente_id','$suc_dest_id','$suc_orig_id', '$remito_id','$_POST[precio]','$_POST[valor]','$_POST[descripcion]')");
+        $envio= mysqli_query($conexion, "INSERT INTO envio (fecha, peso, alto, ancho, largo, destinatario, remitente, sucursal_destino, sucursal_origen, factura_id, precio, valor_seguro, descripcion) values ('$fecha','$_POST[peso]','$_POST[alto]','$_POST[ancho]','$_POST[largo]','$destinatario_id','$remitente_id','$suc_dest_id','$suc_orig_id', '$factura_id','$_POST[precio]','$_POST[valor]','$_POST[descripcion]')");
         if ($envio){
             $envio_id = mysqli_insert_id($conexion);
             $etiqueta_url = "etiqueta.php?id=" . urlencode($envio_id)."&sucursal_destino=" . urlencode($_POST['sucursal_destino']) . "&sucursal_origen=" . urlencode($_POST['sucursal_origen']) . "&peso=" . urlencode($_POST['peso']) . "&nombre_destinatario=" . urlencode($_POST['nombre_destinatario']) . "&telefono_destinatario=" . urlencode($_POST['telefono_destinatario']) . "&email_destinatario=" . urlencode($_POST['email_destinatario']);
@@ -40,9 +40,9 @@
         }
         else echo "no se pudo guardar envio";
 
-        $codigo_en_remito = mysqli_query($conexion, "UPDATE remito SET envio_id = '$envio_id' WHERE id = '$remito_id';");
-        if ($codigo_en_remito == 0){
-            echo "No se pudo cargar numero de envio en remito";
+        $codigo_en_factura = mysqli_query($conexion, "UPDATE factura SET envio_id = '$envio_id' WHERE id = '$factura_id';");
+        if ($codigo_en_factura == 0){
+            echo "No se pudo cargar numero de envio en factura";
         }
 
         $estado= mysqli_query($conexion,"INSERT INTO movimientos (fecha, envio_id, estados_id) values ('$fecha', '$envio_id',1)");
@@ -57,8 +57,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Remito de Envío - Hornero Envíos</title>
-        <link rel="stylesheet" href="../css/remito.css">
+        <title>Factura de Envío - Hornero Envíos</title>
+        <link rel="stylesheet" href="../css/factura.css">
     </head>
     <body>
         <div class="header">
@@ -67,7 +67,7 @@
             </div>
             <div class="header-info">
                 <p><span class="bold">CODIGO No.</span> <?php echo $envio_id;?></p>
-                <p><span class="bold">REMITO No.</span> 5375-<?php echo $remito_id;?> <span class="bold">Fecha:</span> <?php echo $fecha;?></p>
+                <p><span class="bold">FACTURA No.</span> 5375-<?php echo $factura_id;?> <span class="bold">Fecha:</span> <?php echo $fecha;?></p>
                 <span class="bold">Teléfono:</span> 0303456
                 <span class="bold">Web:</span> www.hornerito.com.ar
             </div>

@@ -1,0 +1,93 @@
+@page {
+    size: A5 portrait;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.2;
+    margin: 0;
+    padding: 5mm;
+    box-sizing: border-box;
+    height: 210mm;
+    width: 148mm;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3mm;
+}
+
+.logo {
+    width: 50mm;
+    height: 20mm;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-info {
+    text-align: right;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1mm;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.border-box {
+    border: 3px solid black;
+    padding: 3mm;
+}
+
+.barcode {
+    text-align: center;
+    margin-top: 3mm;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.small-text {
+    font-size: 7px;
+}
+
+.price-box {
+    border: 3px solid black;
+    padding: 1mm;
+    width: 20%;
+    margin-left: auto;
+    margin-top: 2mm;
+}
+
+.inline-containers {
+    display: flex;
+    gap: 1mm;
+}
+
+.half-width {
+    width: 50%;
+}
+
+#logo {
+    max-width: 82%;
+    padding-left: 8%;
+    padding-top: 8%;
+}

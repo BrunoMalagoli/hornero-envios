@@ -13,13 +13,13 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="images/LOGO_TRANSPARENTE.png" alt="Logo de la empresa">
+                <a href="./index.php"><img src="images/LOGO_TRANSPARENTE.png" alt="Logo de la empresa"></a>
             </div>
             <ul class="nav-links">
                 <li><a href="index.php">Inicio</a></li>
                 <li><a href="#servicios">Servicios</a></li>
                 <li><a href="./pages/contacto.php">Contacto</a></li>
-                <li><a href=".login.php">Login Usuarios</a></li>
+                <li><a href="./pages/login.php">Login Sucursales</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>
