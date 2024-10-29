@@ -21,7 +21,7 @@
                     <li><a href="consulta-historico.php">Historico</a></li>
                     <li><a style="background-color: #170f38" href="entrega.php">Entrega</a></li>
                     <li><a href="inicio-u-suc.php">Inicio</a></li>
-                    <li><a href="#">Cerrar Sesión</a></li>
+                    <li><a href="../services/logout.php">Cerrar Sesión</a></li>
                 </ul>
                 <div class="burger">
                     <div class="line1"></div>
@@ -78,8 +78,6 @@
                     if (!$conexion) {
                         die("Error de conexión: " . mysqli_connect_error());
                     }
-                    
-                    $_SESSION['sucursal'] = 2;
                     $sucursal_destino = $_SESSION['sucursal'];
 
                     if(!empty($_GET['filter-codigo'])){
@@ -106,11 +104,12 @@
                     INNER JOIN cliente AS cliente_destinatario ON cliente_destinatario.id = envio.destinatario
                     INNER JOIN sucursal AS sucursal_de_origen ON sucursal_de_origen.id = envio.sucursal_origen 
                     WHERE envio.sucursal_destino = '$sucursal_destino' 
+                    AND movimientos.estados_id = 4
                     AND envio.codigo NOT IN (
-                    SELECT movimientos.envio_id 
+                    SELECT envio_id 
                     FROM movimientos 
-                    WHERE estados_id = 5
-                    ); ";
+                    WHERE estados_id = 5 OR estados_id = 6
+                    );";
                     $resultado = mysqli_query($conexion, $query);
                     if (!$resultado) {
                         die("Error en la consulta: " . mysqli_error($conexion));

@@ -19,7 +19,7 @@
                     <li><a style="background-color: #170f38" href="consulta-historico.php">Historico</a></li>
                     <li><a href="entrega.php">Entrega</a></li>
                     <li><a href="inicio-u-suc.php">Inicio</a></li>
-                    <li><a href="#">Cerrar Sesión</a></li>
+                    <li><a href="../services/logout.php">Cerrar Sesión</a></li>
                 </ul>
                 <div class="burger">
                     <div class="line1"></div>

@@ -26,7 +26,11 @@
         }
         else echo "no se pudo guardar remito";
 
-        $envio= mysqli_query($conexion, "INSERT INTO envio (fecha, peso, alto, ancho, largo, destinatario, remitente, sucursal_destino, sucursal_origen, remito_id, precio, valor_seguro, descripcion) values ('$fecha','$_POST[peso]','$_POST[alto]','$_POST[ancho]','$_POST[largo]','$destinatario_id','$remitente_id','$suc_dest_id',1, $remito_id ,'$_POST[precio]','$_POST[valor]','$_POST[descripcion]')");
+        $sucursal_origen = mysqli_query($conexion,"SELECT id from sucursal where nombre='$_POST[sucursal_origen]';");
+        $resultado = mysqli_fetch_assoc($sucursal_origen);
+        $suc_orig_id = $resultado['id'];
+
+        $envio= mysqli_query($conexion, "INSERT INTO envio (fecha, peso, alto, ancho, largo, destinatario, remitente, sucursal_destino, sucursal_origen, remito_id, precio, valor_seguro, descripcion) values ('$fecha','$_POST[peso]','$_POST[alto]','$_POST[ancho]','$_POST[largo]','$destinatario_id','$remitente_id','$suc_dest_id','$suc_orig_id', '$remito_id','$_POST[precio]','$_POST[valor]','$_POST[descripcion]')");
         if ($envio){
             $envio_id = mysqli_insert_id($conexion);
             $etiqueta_url = "etiqueta.php?id=" . urlencode($envio_id)."&sucursal_destino=" . urlencode($_POST['sucursal_destino']) . "&sucursal_origen=" . urlencode($_POST['sucursal_origen']) . "&peso=" . urlencode($_POST['peso']) . "&nombre_destinatario=" . urlencode($_POST['nombre_destinatario']) . "&telefono_destinatario=" . urlencode($_POST['telefono_destinatario']) . "&email_destinatario=" . urlencode($_POST['email_destinatario']);

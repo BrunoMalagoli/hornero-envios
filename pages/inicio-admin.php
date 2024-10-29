@@ -108,7 +108,7 @@ if (isset($_POST["registrar_sucursal"])){
                     <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#">Cerrar Sesión</a></li>
+                <li><a href="../services/logout.php">Cerrar Sesión</a></li>
                 </ul>
                 <div class="burger">
                     <div class="line1"></div>

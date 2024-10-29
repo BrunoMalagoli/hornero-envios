@@ -1,11 +1,9 @@
 <?php
-/*
 session_start();
 if(!isset($_SESSION['logueado'])){
 header("Location:login.php");
 exit;
 }
-*/
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +28,7 @@ exit;
                     <li><a href="consulta-historico.php">Historico</a></li>
                     <li><a href="entrega.php">Entrega</a></li>
                     <li><a style="background-color: #170f38" href="inicio-u-suc.php">Inicio</a></li>
-                    <li><a href="#">Cerrar Sesión</a></li>
+                    <li><a href="../services/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>
@@ -78,8 +76,6 @@ exit;
             <tbody>
                 <!-- Los datos se cargarán aquí dinámicamente -->
                  <?php
-                    session_start();
-                    $_SESSION['sucursal'] = 2;
                     require("../config/dbconnect.php");
                     // AGREGAR QUE EN LA TABLA SOLAMENTE MUESTRE LOS ENVIOS EN ESTADO ADMITIDO
                     $condicionales = [];
@@ -102,12 +98,17 @@ exit;
                         $condicionales[] = "envio.destinatario LIKE '%$destinatario%'";
                     }
                     $sql = "
-                    SELECT envio.*, sucursal_origen.nombre AS nombre_origen, sucursal_destino.nombre AS nombre_destino
+                    SELECT envio.*, 
+                    sucursal_origen.nombre AS nombre_origen, 
+                    sucursal_destino.nombre AS nombre_destino,
+                    movimientos.*
                     FROM envio
                     LEFT JOIN sucursal AS sucursal_origen ON envio.sucursal_origen = sucursal_origen.id
                     LEFT JOIN sucursal AS sucursal_destino ON envio.sucursal_destino = sucursal_destino.id
+                    INNER JOIN movimientos ON movimientos.envio_id = envio.codigo
                     WHERE envio.sucursal_origen = {$_SESSION['sucursal']}
-                    ";
+                    AND envio.codigo NOT IN (SELECT envio_id FROM movimientos WHERE movimientos.estados_id = 6)
+                    ";//RESOLVER TEMA CENTROS DE DISTRIBUCION ASIGNADOS
                     if (count($condicionales) > 0) {
                         $sql .= " AND " . implode(" AND ", $condicionales);
                     }

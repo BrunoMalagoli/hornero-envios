@@ -18,7 +18,7 @@ document.querySelectorAll(".eliminarEnvioEnSucursal").forEach((boton) => {
               title: "Registro eliminado correctamente",
               icon: "success",
             }),
-            setTimeout(() => window.location.reload(), 2500))
+            setTimeout(() => window.location.reload(), 7500))
           : Swal.fire({
               title: "Ocurrió un error!",
               text: "Por favor , intentalo otra vez.",

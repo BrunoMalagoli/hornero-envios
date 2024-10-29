@@ -96,7 +96,7 @@ if (isset($_POST["buscar_envio"]))
     <header>
         <nav class="navbar">
             <div class="logo">
-                <img src="logo.png" alt="Logo de la empresa">
+                <img src="../images/LOGO_TRANSPARENTE.png" alt="Logo de la empresa">
             </div>
             <ul class="nav-links">
                 <li><a href="admision-envios.php">Admision</a></li>
@@ -104,6 +104,7 @@ if (isset($_POST["buscar_envio"]))
                 <li><a href="consulta-historico.php">Historico</a></li>
                 <li><a href="entrega.php">Entrega</a></li>
                 <li><a href="inicio-u-suc.php">Inicio</a></li>
+                <li><a href="../services/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>

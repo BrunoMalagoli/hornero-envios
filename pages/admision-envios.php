@@ -1,14 +1,14 @@
 <?php
 session_start();
-$_SESSION["sucursal_id"]= "MERLO";
-/*include("../config/dbconnect.php");
+$sucursal = $_SESSION["sucursal"];
+include("../config/dbconnect.php");
 
 if(!isset($_SESSION['logueado'])){
 header("Location:login.php");
 exit;
 }
 
-*/
+
 $precio = 0; 
 $mostrarFormulario = false; 
 
@@ -51,7 +51,7 @@ function obtenerValor($campo) {
                     <li><a href="consulta-historico.php">Historico</a></li>
                     <li><a href="entrega.php">Entrega</a></li>
                     <li><a href="inicio-u-suc.php">Inicio</a></li>
-                    <li><a href="#">Cerrar Sesión</a></li>
+                    <li><a href="../services/logout.php">Cerrar Sesión</a></li>
                 </ul>
                 <div class="burger">
                     <div class="line1"></div>
@@ -69,7 +69,10 @@ function obtenerValor($campo) {
                     <div class="form-row">
                         <div class="form-group">
                             <label>Origen</label>
-                            <input type="text" name="sucursal_origen" value="<?php echo $_SESSION['sucursal_id']; ?>" readonly>
+                            <input type="text" name="sucursal_origen" 
+                            value="<?php require('../config/dbconnect.php'); 
+                            $respuesta = mysqli_query($conexion , "SELECT nombre from sucursal WHERE sucursal.id = '" . $_SESSION['sucursal'] . "'");
+                            echo mysqli_fetch_assoc($respuesta)['nombre'] ; //trae el nombre de la sucursal?>" readonly> 
                         </div>
                         <div class="form-group">
                             <label>Destino</label>
@@ -199,7 +202,7 @@ function obtenerValor($campo) {
                 <input type="hidden" name="alto" value="<?php echo isset($_POST['alto']) ? $_POST['alto'] : ''; ?>">
                 <input type="hidden" name="valor" value="<?php echo isset($_POST['valor']) ? $_POST['valor'] : ''; ?>">
                 <input type="hidden" name="descripcion" value="<?php echo isset($_POST['descripcion']) ? $_POST['descripcion'] : ''; ?>">
-                <input type="hidden" name="sucursal_origen" value="<?php echo $_SESSION['sucursal_id']; ?>">
+                <input type="hidden" name="sucursal_origen" value="<?php echo $_POST['sucursal_origen']; ?>">
                 <input type="hidden" name="sucursal_destino" value="<?php echo isset($_POST['sucursal_destino']) ? $_POST['sucursal_destino'] : ''; ?>">
                 <input type="hidden" name="precio" value="<?php echo $precio; ?>">
                 <!-- Botón para guardar -->
