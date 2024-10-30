@@ -118,7 +118,18 @@ th {
     padding: 5px;
     margin: 0 2px;
 }
-
+.buttonWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+#botonManifiesto{
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+}
 .delete-btn {
     color: #f44336;
 }

@@ -99,16 +99,30 @@ exit;
                     }
                     $sql = "
                     SELECT envio.*, 
-                    sucursal_origen.nombre AS nombre_origen, 
-                    sucursal_destino.nombre AS nombre_destino,
-                    movimientos.*
+                           sucursal_origen.nombre AS nombre_origen, 
+                           sucursal_destino.nombre AS nombre_destino,
+                           sucursal_intermedia.id AS suc_intermedia_id,
+                           movimientos.*
                     FROM envio
                     LEFT JOIN sucursal AS sucursal_origen ON envio.sucursal_origen = sucursal_origen.id
                     LEFT JOIN sucursal AS sucursal_destino ON envio.sucursal_destino = sucursal_destino.id
                     INNER JOIN movimientos ON movimientos.envio_id = envio.codigo
-                    WHERE envio.sucursal_origen = {$_SESSION['sucursal']}
-                    AND envio.codigo NOT IN (SELECT envio_id FROM movimientos WHERE movimientos.estados_id = 6)
-                    ";//RESOLVER TEMA CENTROS DE DISTRIBUCION ASIGNADOS
+                    INNER JOIN sucursal AS sucursal_intermedia ON sucursal_intermedia.id = {$_SESSION['sucursal']}
+                    WHERE 
+                        (
+                            envio.sucursal_origen = {$_SESSION['sucursal']} 
+                            AND movimientos.estados_id = 1
+                            AND envio.codigo NOT IN (SELECT envio_id FROM movimientos WHERE estados_id != 1)
+                        )
+                        OR 
+                        (
+                            envio.sucursal_actual = {$_SESSION['sucursal']}
+                            AND envio.sucursal_origen != {$_SESSION['sucursal']}
+                            AND envio.sucursal_destino !={$_SESSION['sucursal']}
+                            AND movimientos.estados_id = 3
+                            AND envio.codigo NOT IN (SELECT envio_id FROM movimientos WHERE estados_id NOT IN (1,2,3))
+                        )
+                "; //COMPARAR ENVIO.SUCURSAL_ACTUAL CON SUCURSAL.CENTRO_DESIGNADO
                     if (count($condicionales) > 0) {
                         $sql .= " AND " . implode(" AND ", $condicionales);
                     }
@@ -137,6 +151,9 @@ exit;
             <button id="btn-anterior" disabled>Anterior</button>
             <span id="pagina-actual">Página 1 de 1</span>
             <button id="btn-siguiente" disabled>Siguiente</button>
+        </div>
+        <div class="buttonWrapper">
+            <button id="botonManifiesto" class="action-btn">Generar manifiesto</button>
         </div>
     </div>
 

@@ -3,10 +3,10 @@
   session_start();
   include("../config/dbconnect.php");
 
-//  if(!isset($_SESSION['logueado'])){
-//  header("Location:login.php");
-//  exit;
-//  }
+  if(!isset($_SESSION['logueado'])){
+  header("Location:login.php");
+  exit;
+  }
 $resultadoSucursales = mysqli_query($conexion, "SELECT id, nombre FROM sucursal ORDER BY id ASC");
 
 $sucursales = [];

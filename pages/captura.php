@@ -18,7 +18,8 @@ if (isset($_POST["buscar_envio"]))
 
     //aca busco que tipo de sucursal es
     $resultadosucursal = mysqli_query($conexion, "SELECT rol, id FROM sucursal WHERE id = '$sucursal_usuario'");
-
+    // Actualizar la sucursal_actual en la tabla envio
+    $actualizarSucActual = mysqli_query($conexion, "UPDATE envio SET sucursal_actual = '$sucursal_usuario' WHERE codigo = $codigo");
     if (mysqli_num_rows($resultadosucursal) > 0) 
     {
         $fila = mysqli_fetch_assoc($resultadosucursal);
