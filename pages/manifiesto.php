@@ -1,20 +1,108 @@
 <?php
+session_start();
 // Conexión a la base de datos
 include '../config/dbconnect.php';
 
-// Obtener la fecha actual
+// Fecha actual
 $fecha_actual = date('d/m/Y');
+$sucursal_actual = $_SESSION['sucursal'];
+$u_id = $_SESSION['usuario_id'];
+//traigo los envios que estan admitidos en la sucursal 
+$respuesta = mysqli_query($conexion , "SELECT * FROM envio WHERE sucursal_actual = '$sucursal_actual'");
+if (!$respuesta) {
+    echo "Error en la consulta: " . mysqli_error($conexion);
+}
+$envios = [];
+while ($fila = mysqli_fetch_assoc($respuesta)) {
+    $envios[] = $fila;
+}
 
-// Consulta para obtener los envíos disponibles para despachar
-$query = "SELECT * FROM envio LIMIT 54"; // 54 es el máximo de envíos que caben en el formulario
-$resultado = mysqli_query($conexion, $query);
+$total_envios = count($envios);
+//inserto el manifiesto
+$manifiesto= mysqli_query($conexion, "INSERT INTO manifiesto (fecha, sucursal_id , usuario_id) values ('$fecha_actual' , '$sucursal_actual' ,'$u_id')");
+        if ($manifiesto){
+            $manifiesto_id = mysqli_insert_id($conexion);
+        }
+        else echo "no se pudo guardar manifiesto";
+// Calcular el número total de páginas
+$envios_por_pagina = 54;
+$total_paginas = ceil($total_envios / $envios_por_pagina);
 
-// Obtener detalles de la agencia
-$agencia_id = 'BUE006'; // Esto debería venir de una sesión o configuración
-$query_agencia = "SELECT * FROM sucursal WHERE id = '$agencia_id'";
-$resultado_agencia = mysqli_query($conexion, $query_agencia);
-$agencia = mysqli_fetch_assoc($resultado_agencia);
+// Función para generar una página del manifiesto
+function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
+    global $fecha_actual , $conexion , $sucursal_actual , $respuesta , $manifiesto_id;
+    ?>
+    <div class="pagina">
+        <div class="header">
+            <h2 class="titulo">MANIFIESTO RESUMEN</h2>
+            <table>
+                <tr>
+                    <td>SUCURSAL:</td>
+                    <td><?php echo mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$sucursal_actual'"))['nombre'] . " (" . $sucursal_actual . ")"; ?></td>
+                    <td>FECHA DE CREACIÓN:</td>
+                    <td><?php echo $fecha_actual; ?></td>
+                    <td>N°MANIFIESTO:</td>
+                    <td><?php echo $manifiesto_id; ?></td>
+                </tr>
+                <tr>
+                    <td>DESTINO:</td>
+                    <td><?php echo "CENTRO DIST"; //CAMBIAR DINAMICAMENTE DESP ?></td>
+                    <td>FECHA DE RETIRO:</td>
+                    <td><?php echo $fecha_actual; ?></td>
+                    <td>USUARIO:</td>
+                    <td><?php echo $_SESSION['usuario']; ?></td>
+                </tr>
+            </table>
+        </div>
 
+        <div class="tablas-container">
+            <?php
+            $envios_pagina = array_slice($envios, $inicio, $fin - $inicio);
+            $envios_por_tabla = ceil(count($envios_pagina) / 3);
+            for ($tabla = 0; $tabla < 3; $tabla++) {
+                echo '<table class="tabla-envios">';
+                echo '<tr><th>N°</th><th>GUIA</th></tr>';
+                for ($i = 0; $i < $envios_por_tabla; $i++) {
+                    $indice = $tabla * $envios_por_tabla + $i;
+                    if ($indice < count($envios_pagina)) {
+                        echo '<tr>';
+                        echo '<td>' . ($inicio + $indice + 1) . '</td>';
+                        echo '<td>' . $envios_pagina[$indice]['codigo'] . '</td>';
+                        echo '</tr>';
+                    }
+                }
+                echo '</table>';
+            }
+            ?>
+        </div>
+
+        <?php if ($numero_pagina == $total_paginas) { ?>
+            <div class="footer">
+                <table>
+                    <tr>
+                        <td>TRANSPORTE</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            NOMBRE, NIT, FIRMA y FECHA
+                            <div class="signature-box"></div>
+                        </td>
+                    </tr>
+                </table>
+                <p>TOTAL ENVÍOS: <?php echo mysqli_num_rows($respuesta); ?></p>
+            </div>
+        <?php } ?>
+        <div class="numero-pagina">Página <?php echo $numero_pagina; ?> de <?php echo $total_paginas; ?></div>
+    </div>
+    <?php
+}
+
+// Generar todas las páginas
+for ($pagina = 1; $pagina <= $total_paginas; $pagina++) {
+    $inicio = ($pagina - 1) * $envios_por_pagina;
+    $fin = min($inicio + $envios_por_pagina, $total_envios);
+    generarPagina($envios, $inicio, $fin, $pagina, $total_paginas);
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,92 +114,8 @@ $agencia = mysqli_fetch_assoc($resultado_agencia);
     <link rel="stylesheet" href="../css/manifiesto.css">
 </head>
 <body>
-    <div class="header">
-        <h2>MANIFIESTO RESUMEN</h2>
-        <table>
-            <tr>
-                <td>AGENCIA:</td>
-                <td><?php echo $agencia['id']; ?></td>
-                <td>FECHA DE CREACIÓN:</td>
-                <td><?php echo $fecha_actual; ?></td>
-                <td>N°MANIFIESTO:</td>
-                <td><?php echo rand(100000, 999999); // Ejemplo ?></td>
-            </tr>
-            <tr>
-                <td>NOMBRE AGENCIA:</td>
-                <td><?php echo $agencia['nombre']; ?></td>
-                <td>FECHA DE RETIRO:</td>
-                <td><?php echo $fecha_actual; ?></td>
-                <td>USUARIO:</td>
-                <td><?php echo $_SESSION['usuario'] ?? 'SISTEMA'; ?></td>
-            </tr>
-        </table>
-    </div>
-
-    <table>
-        <tr>
-            <th>N°</th>
-            <th>PROD</th>
-            <th>GUIA</th>
-            <th>BULTOS</th>
-            <th>N°</th>
-            <th>PROD</th>
-            <th>GUIA</th>
-            <th>BULTOS</th>
-            <th>N°</th>
-            <th>PROD</th>
-            <th>GUIA</th>
-            <th>BULTOS</th>
-        </tr>
-        <?php
-        $contador = 1;
-        $total_envios = 0;
-        $total_bultos = 0;
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-            if ($contador % 3 == 1) echo "<tr>";
-            echo "<td>" . $contador . "</td>";
-            echo "<td>" . $fila['producto'] . "</td>";
-            echo "<td>" . $fila['guia'] . "</td>";
-            echo "<td>" . $fila['bultos'] . "</td>";
-            if ($contador % 3 == 0) echo "</tr>";
-            $contador++;
-            $total_envios++;
-            $total_bultos += $fila['bultos'];
-        }
-        // Rellenar las celdas vacías si es necesario
-        while ($contador <= 54) {
-            if ($contador % 3 == 1) echo "<tr>";
-            echo "<td></td><td></td><td></td><td></td>";
-            if ($contador % 3 == 0) echo "</tr>";
-            $contador++;
-        }
-        ?>
-    </table>
-
-    <div class="footer">
-        <table>
-            <tr>
-                <td>PUNTO DE VENTA</td>
-                <td>TRANSPORTE</td>
-                <td>ESTACIÓN</td>
-            </tr>
-            <tr>
-                <td>
-                    NOMBRE, NIT, FIRMA y FECHA
-                    <div class="signature-box"></div>
-                </td>
-                <td>
-                    NOMBRE, NIT, FIRMA y FECHA
-                    <div class="signature-box"></div>
-                </td>
-                <td>
-                    NOMBRE, NIT, FIRMA y FECHA
-                    <div class="signature-box"></div>
-                </td>
-            </tr>
-        </table>
-        <p>TOTAL ENVÍOS: <?php echo $total_envios; ?></p>
-        <p>TOTAL BULTOS: <?php echo $total_bultos; ?></p>
-    </div>
+    <?php
+    // El contenido se genera dinámicamente en el bucle anterior
+    ?>
 </body>
 </html>

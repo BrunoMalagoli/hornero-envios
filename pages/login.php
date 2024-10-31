@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $_SESSION['sucursal'] = $resultado['sucursal_id'];
                 $_SESSION['usuario'] = $resultado['u_name'];
+                $_SESSION['usuario_id'] = $resultado['id'];
                 $_SESSION['rol'] = $resultado['rol'];
                 header("Location: inicio-u-suc.php");
             }

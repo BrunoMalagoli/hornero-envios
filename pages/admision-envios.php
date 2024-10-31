@@ -1,6 +1,7 @@
 <?php
 session_start();
 $sucursal = $_SESSION["sucursal"];
+$_SESSION['acceso_pago'] = true;
 include("../config/dbconnect.php");
 
 if(!isset($_SESSION['logueado'])){
@@ -145,7 +146,7 @@ function obtenerValor($campo) {
                     ?>
                 </div>
             
-            <form id="senderReceiverForm" method="POST" action="factura.php" target="_blank" onsubmit="return validarGuardar()">        
+            <form id="senderReceiverForm" method="POST" action="pago.php" target="_blank" onsubmit="return validarGuardar()">        
                 <!-- Sección de remitente y destinatario -->
                 <div class="sender-receiver-section">
                     <div class="rol-form-section">
@@ -235,4 +236,3 @@ function obtenerValor($campo) {
         <script src="../js/script.js"></script>
     </body>
 </html>
-
