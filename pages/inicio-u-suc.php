@@ -28,6 +28,13 @@ exit;
                     <li><a href="consulta-historico.php">Historico</a></li>
                     <li><a href="entrega.php">Entrega</a></li>
                     <li><a style="background-color: #170f38" href="inicio-u-suc.php">Inicio</a></li>
+                    <li><p>USUARIO : 
+                    <?php
+                        require("../config/dbconnect.php");
+                        $sucursal_actual = $_SESSION['sucursal'];
+                        echo mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$sucursal_actual'"))['nombre'] . " (" . $sucursal_actual . ")";
+                    ?>
+                    </p></li>
                     <li><a href="../services/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="burger">
@@ -99,10 +106,10 @@ exit;
                     }
                     $sql = "
                     SELECT envio.*, 
-                           sucursal_origen.nombre AS nombre_origen, 
-                           sucursal_destino.nombre AS nombre_destino,
-                           sucursal_intermedia.id AS suc_intermedia_id,
-                           movimientos.*
+                        sucursal_origen.nombre AS nombre_origen, 
+                        sucursal_destino.nombre AS nombre_destino,
+                        sucursal_intermedia.id AS suc_intermedia_id,
+                        movimientos.*
                     FROM envio
                     LEFT JOIN sucursal AS sucursal_origen ON envio.sucursal_origen = sucursal_origen.id
                     LEFT JOIN sucursal AS sucursal_destino ON envio.sucursal_destino = sucursal_destino.id
@@ -112,16 +119,30 @@ exit;
                         (
                             envio.sucursal_origen = {$_SESSION['sucursal']} 
                             AND movimientos.estados_id = 1
-                            AND envio.codigo NOT IN (SELECT envio_id FROM movimientos WHERE estados_id != 1)
+                            AND envio.codigo NOT IN (
+                                SELECT envio_id 
+                                FROM movimientos 
+                                WHERE estados_id != 1
+                            )
                         )
                         OR 
                         (
                             envio.sucursal_actual = {$_SESSION['sucursal']}
                             AND envio.sucursal_origen != {$_SESSION['sucursal']}
-                            AND envio.sucursal_destino !={$_SESSION['sucursal']}
+                            AND envio.sucursal_destino != {$_SESSION['sucursal']}
                             AND movimientos.estados_id = 3
-                            AND envio.codigo NOT IN (SELECT envio_id FROM movimientos WHERE estados_id NOT IN (1,2,3))
+                            AND envio.codigo NOT IN (
+                                SELECT envio_id 
+                                FROM movimientos 
+                                WHERE estados_id IN (4, 5, 6)
+                            )
+                            AND movimientos.fecha = (
+                                SELECT MAX(mov.fecha)
+                                FROM movimientos mov
+                                WHERE mov.envio_id = envio.codigo
+                            )
                         )
+
                 "; //COMPARAR ENVIO.SUCURSAL_ACTUAL CON SUCURSAL.CENTRO_DESIGNADO
                     if (count($condicionales) > 0) {
                         $sql .= " AND " . implode(" AND ", $condicionales);
@@ -153,7 +174,10 @@ exit;
             <button id="btn-siguiente" disabled>Siguiente</button>
         </div>
         <div class="buttonWrapper">
-            <button id="botonManifiesto" class="action-btn">Generar manifiesto</button>
+            <button id="botonManifiesto" class="action-btn"
+                onclick="window.open('../services/gestionManifiestos.php', '_blank'); window.location.reload();">
+            Generar manifiesto
+            </button>
         </div>
     </div>
 

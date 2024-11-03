@@ -7,16 +7,25 @@ include '../config/dbconnect.php';
 $fecha_actual = date('d/m/Y');
 $sucursal_actual = $_SESSION['sucursal'];
 $u_id = $_SESSION['usuario_id'];
+$manifiesto_destino = "";
 //traigo los envios que estan admitidos en la sucursal 
-$respuesta = mysqli_query($conexion , "SELECT * FROM envio WHERE sucursal_actual = '$sucursal_actual'");
-if (!$respuesta) {
-    echo "Error en la consulta: " . mysqli_error($conexion);
+// $respuesta = mysqli_query($conexion , "SELECT * FROM envio WHERE sucursal_actual = '$sucursal_actual'");
+// if (!$respuesta) {
+//     echo "Error en la consulta: " . mysqli_error($conexion);
+// }
+// $envios = [];
+// while ($fila = mysqli_fetch_assoc($respuesta)) {
+//     $envios[] = $fila;
+// }
+/**/ 
+$manifiesto_id = $_GET['id'];
+if(isset($_SESSION['manifiestos'][$manifiesto_id])) {
+    $manifiesto = $_SESSION['manifiestos'][$manifiesto_id];
+    $envios = $manifiesto['datos'];
+    $destino_manifiesto = $manifiesto['destino'];
+} else {
+    echo "Manifiesto no encontrado";
 }
-$envios = [];
-while ($fila = mysqli_fetch_assoc($respuesta)) {
-    $envios[] = $fila;
-}
-
 $total_envios = count($envios);
 //inserto el manifiesto
 $manifiesto= mysqli_query($conexion, "INSERT INTO manifiesto (fecha, sucursal_id , usuario_id) values ('$fecha_actual' , '$sucursal_actual' ,'$u_id')");
@@ -27,10 +36,9 @@ $manifiesto= mysqli_query($conexion, "INSERT INTO manifiesto (fecha, sucursal_id
 // Calcular el número total de páginas
 $envios_por_pagina = 54;
 $total_paginas = ceil($total_envios / $envios_por_pagina);
-
 // Función para generar una página del manifiesto
 function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
-    global $fecha_actual , $conexion , $sucursal_actual , $respuesta , $manifiesto_id;
+    global $fecha_actual , $conexion , $sucursal_actual , $respuesta_envios_sucact , $manifiesto_id, $destino_manifiesto;
     ?>
     <div class="pagina">
         <div class="header">
@@ -46,7 +54,10 @@ function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
                 </tr>
                 <tr>
                     <td>DESTINO:</td>
-                    <td><?php echo "CENTRO DIST"; //CAMBIAR DINAMICAMENTE DESP ?></td>
+                    <td><?php 
+                    $consulta = mysqli_query($conexion, "SELECT nombre FROM sucursal WHERE id = $destino_manifiesto");
+                    $nombre_sucursal = mysqli_fetch_assoc($consulta)['nombre'];
+                    echo $nombre_sucursal . " (" . $destino_manifiesto . ")";?></td> 
                     <td>FECHA DE RETIRO:</td>
                     <td><?php echo $fecha_actual; ?></td>
                     <td>USUARIO:</td>
@@ -73,6 +84,7 @@ function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
                 }
                 echo '</table>';
             }
+            
             ?>
         </div>
 
@@ -89,7 +101,7 @@ function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
                         </td>
                     </tr>
                 </table>
-                <p>TOTAL ENVÍOS: <?php echo mysqli_num_rows($respuesta); ?></p>
+                <p>TOTAL ENVÍOS: <?php echo count($envios) ?></p>
             </div>
         <?php } ?>
         <div class="numero-pagina">Página <?php echo $numero_pagina; ?> de <?php echo $total_paginas; ?></div>
@@ -103,6 +115,7 @@ for ($pagina = 1; $pagina <= $total_paginas; $pagina++) {
     $fin = min($inicio + $envios_por_pagina, $total_envios);
     generarPagina($envios, $inicio, $fin, $pagina, $total_paginas);
 }
+
 ?>
 
 <!DOCTYPE html>
