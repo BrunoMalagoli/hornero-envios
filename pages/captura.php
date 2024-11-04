@@ -105,6 +105,13 @@ if (isset($_POST["buscar_envio"]))
                 <li><a href="consulta-historico.php">Historico</a></li>
                 <li><a href="entrega.php">Entrega</a></li>
                 <li><a href="inicio-u-suc.php">Inicio</a></li>
+                <p>USUARIO : 
+                    <?php
+                        require("../config/dbconnect.php");
+                        $sucursal_actual = $_SESSION['sucursal'];
+                        echo mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$sucursal_actual'"))['nombre'] . " (" . $sucursal_actual . ")";
+                    ?>
+                    </p>
                 <li><a href="../services/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="burger">

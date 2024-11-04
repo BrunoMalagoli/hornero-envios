@@ -28,13 +28,13 @@ exit;
                     <li><a href="consulta-historico.php">Historico</a></li>
                     <li><a href="entrega.php">Entrega</a></li>
                     <li><a style="background-color: #170f38" href="inicio-u-suc.php">Inicio</a></li>
-                    <li><p>USUARIO : 
+                    <p>USUARIO : 
                     <?php
                         require("../config/dbconnect.php");
                         $sucursal_actual = $_SESSION['sucursal'];
                         echo mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$sucursal_actual'"))['nombre'] . " (" . $sucursal_actual . ")";
                     ?>
-                    </p></li>
+                    </p>
                     <li><a href="../services/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="burger">

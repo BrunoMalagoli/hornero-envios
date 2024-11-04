@@ -19,6 +19,14 @@
                     <li><a style="background-color: #170f38" href="consulta-historico.php">Historico</a></li>
                     <li><a href="entrega.php">Entrega</a></li>
                     <li><a href="inicio-u-suc.php">Inicio</a></li>
+                    <p>USUARIO : 
+                    <?php
+                        session_start();
+                        require("../config/dbconnect.php");
+                        $sucursal_actual = $_SESSION['sucursal'];
+                        echo mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$sucursal_actual'"))['nombre'] . " (" . $sucursal_actual . ")";
+                    ?>
+                    </p>
                     <li><a href="../services/logout.php">Cerrar Sesión</a></li>
                 </ul>
                 <div class="burger">
@@ -57,7 +65,7 @@
                         $envio = mysqli_fetch_assoc($consulta); 
                         $envio_id = $envio['codigo'];  
                         $consulta = mysqli_query($conexion, 
-                        "SELECT m.fecha, e.nombre from movimientos m, estados e where m.estados_id = e.id and m.envio_id = $envio_id;");
+                        "SELECT m.fecha, e.nombre from movimientos m, estados e where m.estados_id = e.id and m.envio_id = $envio_id order by m.fecha;");
                         echo "<table>
                                 <thead>
                                     <tr>

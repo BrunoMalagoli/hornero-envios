@@ -7,7 +7,7 @@ function obtenerDistancia($origen, $destino) {
         return "No se pudieron obtener las coordenadas de las ubicaciones.";
     }
 
-    $apiKey = getenv('API_KEY'); // Reemplaza con tu API Key de OpenRouteService
+    $apiKey = getenv('API_KEY'); 
     $url = "https://api.openrouteservice.org/v2/directions/driving-car?start={$coord_origen['lon']},{$coord_origen['lat']}&end={$coord_destino['lon']},{$coord_destino['lat']}";
 
     $options = [
@@ -28,10 +28,8 @@ function obtenerDistancia($origen, $destino) {
         return "Error: No se pudo conectar a la API.";
     }
 
-    // Decodificar la respuesta JSON
     $datos = json_decode($respuesta, true);
 
-    // Verificar si hubo un error al decodificar el JSON
     if (json_last_error() !== JSON_ERROR_NONE) {
         return "Error al decodificar la respuesta JSON: " . json_last_error_msg();
     }

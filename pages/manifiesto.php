@@ -26,13 +26,21 @@ if(isset($_SESSION['manifiestos'][$manifiesto_id])) {
 } else {
     echo "Manifiesto no encontrado";
 }
-$total_envios = count($envios);
+
 //inserto el manifiesto
 $manifiesto= mysqli_query($conexion, "INSERT INTO manifiesto (fecha, sucursal_id , usuario_id) values ('$fecha_actual' , '$sucursal_actual' ,'$u_id')");
-        if ($manifiesto){
-            $manifiesto_id = mysqli_insert_id($conexion);
-        }
-        else echo "no se pudo guardar manifiesto";
+if ($manifiesto){
+    $manifiesto_id = mysqli_insert_id($conexion);
+}
+else echo "no se pudo guardar manifiesto";
+$total_envios = count($envios);
+for($z = 0; $z<$total_envios ; $z++){
+    $actualizado = mysqli_query($conexion, "UPDATE envio SET manifiesto_id = $manifiesto_id, manifiesto_sucursal_id = $sucursal_actual WHERE envio.codigo = '{$envios[$z]['codigo']}'");
+        
+    if (!$actualizado) {
+        echo "Error en la consulta: " . mysqli_error($conexion);
+    }
+}
 // Calcular el número total de páginas
 $envios_por_pagina = 54;
 $total_paginas = ceil($total_envios / $envios_por_pagina);

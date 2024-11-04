@@ -24,14 +24,18 @@ if($datos_rol_origen['rol'] == 'sucursal'){ //SUCURSAL
     $respuesta_envios_sucact = mysqli_query($conexion , "SELECT * FROM envio WHERE envio.sucursal_origen = envio.sucursal_actual AND envio.sucursal_actual = {$sucursal_actual}");
     while($fila = mysqli_fetch_assoc($respuesta_envios_sucact)){
         $envios[] = $fila;
-        //GENERAR MOVIMIENTOS EN VIAJE
+        $result_query = mysqli_query($conexion, "INSERT INTO movimientos(envio_id, estados_id, fecha) VALUES ('" . $fila['codigo'] . "', 2, '$fecha')");
     }
     $manifiesto_destino = $datos_rol_origen['centro_designado'];
-    setcookie('datos_manifiesto', serialize($envios), time() + 1100 , "/");
-    setcookie('destino_manifiesto', serialize($manifiesto_destino), time() + 1100 , "/");
+    $_SESSION['manifiestos'][] = [
+        'datos' => $envios,
+        'destino' => $manifiesto_destino
+    ];
+    $manifiesto_id = count($_SESSION['manifiestos']) - 1;
     echo "<script>
-        window.open('../pages/manifiesto.php','_blank');
+        window.open('../pages/manifiesto.php?id={$manifiesto_id}','_blank');
     </script>";
+
 }else{ //CENTRO DISTRIBUCION
     $respuesta_envios_sucact = mysqli_query($conexion, "
     SELECT * 

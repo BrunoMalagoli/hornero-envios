@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <header>
             <nav class="navbar">
                 <div class="logo">
                     <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
@@ -21,6 +20,14 @@
                     <li><a href="consulta-historico.php">Historico</a></li>
                     <li><a style="background-color: #170f38" href="entrega.php">Entrega</a></li>
                     <li><a href="inicio-u-suc.php">Inicio</a></li>
+                    <p>USUARIO : 
+                    <?php
+                        session_start();
+                        require("../config/dbconnect.php");
+                        $sucursal_actual = $_SESSION['sucursal'];
+                        echo mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$sucursal_actual'"))['nombre'] . " (" . $sucursal_actual . ")";
+                    ?>
+                    </p>
                     <li><a href="../services/logout.php">Cerrar Sesión</a></li>
                 </ul>
                 <div class="burger">
@@ -29,7 +36,6 @@
                     <div class="line3"></div>
                 </div>
             </nav>
-        </header>
 
     <main>
         <section class="search-filter">
@@ -73,7 +79,6 @@
                 </thead>
                 <tbody>
                 <?php
-                    session_start();
                     require("../config/dbconnect.php");
                     if (!$conexion) {
                         die("Error de conexión: " . mysqli_connect_error());

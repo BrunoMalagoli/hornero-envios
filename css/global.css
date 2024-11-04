@@ -41,7 +41,9 @@
 
 .nav-links li {
     margin-left: 1rem;
-    padding: 7px 7px;
+    padding: 4px 7px;
+    display: flex;
+    align-items: center;
 }
 
 .nav-links a {
