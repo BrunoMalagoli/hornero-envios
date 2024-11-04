@@ -1,16 +1,24 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color:#806fcc;
     margin: 0;
-    
+    padding: 20px;
 }
 
+.formu {
+    margin-left: 0px;
+    margin-top: 0px;
+}
 .container {
     background-color: #ffffff;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin: 0 auto 20px auto;
+    max-width: 1300px;
+    width: 90%;
+    margin-top: 80px;
 }
 
 h2 {
@@ -32,10 +40,11 @@ input[type="text"],
 input[type="password"],
 input[type="email"],
 select {
-    width: 100%;
+    width: 60%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    background-color: #b3b3b399
 }
 
 button {
@@ -45,6 +54,7 @@ button {
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+    margin-top: 20px
 }
 
 button:hover {
@@ -86,4 +96,15 @@ th {
 
 .action-btn:hover {
     opacity: 0.8;
+}
+
+.edit-btn {
+    color: #f44336;
+}
+
+
+.checkbox-group {
+    display: flex;
+    gap: 10px; /* Espacio entre cada checkbox */
+    align-items: center;
 }
