@@ -1,0 +1,162 @@
+CREATE DATABASE hornero;
+USE hornero;
+
+-- Tabla cliente
+CREATE TABLE cliente (
+    id       INT AUTO_INCREMENT PRIMARY KEY,
+    nombre   VARCHAR(30) NOT NULL,
+    email    VARCHAR(40),
+    cuil     VARCHAR(11) NOT NULL,
+    telefono VARCHAR(15) NULL
+);
+
+-- Tabla envio (actualizada)
+CREATE TABLE envio (
+    codigo                 BIGINT AUTO_INCREMENT PRIMARY KEY,
+    fecha                  DATETIME NOT NULL,
+    peso                   DECIMAL(6, 2) NOT NULL,
+    alto                   DECIMAL(6, 2) NOT NULL,
+    ancho                  DECIMAL(6, 2) NOT NULL,
+    largo                  DECIMAL(6, 2) NOT NULL,
+    manifiesto_id          INT,
+    destinatario           INT,
+    remitente              INT,
+    manifiesto_sucursal_id INT,
+    sucursal_destino       INT NOT NULL,
+    sucursal_actual        INT NOT NULL,
+    sucursal_origen        INT NOT NULL,
+    factura_id             INT,
+    precio                 DECIMAL(10, 2) NOT NULL,
+    valor_seguro           DECIMAL(10, 2),
+    descripcion            VARCHAR(80)
+);
+
+-- Establecer el valor inicial de AUTO_INCREMENT
+ALTER TABLE envio AUTO_INCREMENT = 6660000001;
+
+CREATE UNIQUE INDEX envio__idx ON envio (factura_id ASC);
+
+-- Tabla estados
+CREATE TABLE estados (
+    id     INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(40) NOT NULL
+);
+
+-- Tabla manifiesto (actualizada para incluir un índice compuesto)
+CREATE TABLE manifiesto (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    fecha       DATETIME NOT NULL,
+    sucursal_id INT NOT NULL,
+    usuario_id  INT,
+    UNIQUE INDEX manifiesto__idx (id, sucursal_id)  -- Agregado índice único en ambas columnas
+);
+
+-- Tabla movimientos (actualizada para referenciar envio.codigo)
+CREATE TABLE movimientos (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    fecha      DATETIME NOT NULL,
+    envio_id   BIGINT NOT NULL,
+    estados_id INT NOT NULL
+);
+
+-- Tabla reclamos
+CREATE TABLE reclamos (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    descripcion VARCHAR(50) NOT NULL,
+    nombre      VARCHAR(30) NOT NULL,
+    apellido    VARCHAR(30) NOT NULL,
+    email       VARCHAR(40) NOT NULL,
+    fecha       DATE NOT NULL
+);
+
+-- Tabla factura (actualizada para referenciar envio.codigo)
+CREATE TABLE factura (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    descripcion VARCHAR(100) NOT NULL,
+    fecha       DATE NOT NULL,
+    envio_id    BIGINT,
+    metodo_pago VARCHAR(40) NOT NULL,
+    codigo_operacion VARCHAR(40)
+);
+
+CREATE UNIQUE INDEX factura__idx ON factura (envio_id ASC);
+
+-- Tabla sucursal
+CREATE TABLE sucursal (
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    nombre          VARCHAR(40) NOT NULL,
+    calle           VARCHAR(40) NOT NULL,
+    numero          INT NOT NULL,
+    localidad       VARCHAR(40) NOT NULL,
+    cp              INT NOT NULL,
+    telefono        VARCHAR(30),
+    rol             VARCHAR(30) NOT NULL,
+    centro_designado INT(6) 
+);
+
+-- Tabla usuario
+CREATE TABLE usuario (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    u_name      VARCHAR(30) NOT NULL,
+    contrasena  VARCHAR(60) NOT NULL,
+    email       VARCHAR(30),
+    rol         VARCHAR(10) NOT NULL,
+    sucursal_id INT
+);
+
+-- Relaciones (Foreign Keys)
+ALTER TABLE sucursal
+    ADD CONSTRAINT sucursal_sucursal_fk FOREIGN KEY (centro_designado)
+        REFERENCES sucursal (id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_cliente_fk FOREIGN KEY (remitente)
+        REFERENCES cliente (id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_cliente_fkv2 FOREIGN KEY (destinatario)
+        REFERENCES cliente (id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_manifiesto_fk FOREIGN KEY (manifiesto_id, manifiesto_sucursal_id)
+        REFERENCES manifiesto (id, sucursal_id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_factura_fk FOREIGN KEY (factura_id)
+        REFERENCES factura (id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_sucursal_fk FOREIGN KEY (sucursal_origen)
+        REFERENCES sucursal (id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_sucursal_fkv3 FOREIGN KEY (sucursal_actual)
+        REFERENCES sucursal (id);
+
+ALTER TABLE envio
+    ADD CONSTRAINT envio_sucursal_fkv2 FOREIGN KEY (sucursal_destino)
+        REFERENCES sucursal (id);
+
+ALTER TABLE manifiesto
+    ADD CONSTRAINT manifiesto_sucursal_fk FOREIGN KEY (sucursal_id)
+        REFERENCES sucursal (id);
+
+ALTER TABLE manifiesto
+    ADD CONSTRAINT manifiesto_usuario_fk FOREIGN KEY (usuario_id)
+        REFERENCES usuario (id);
+
+ALTER TABLE movimientos
+    ADD CONSTRAINT movimientos_envio_fk FOREIGN KEY (envio_id)
+        REFERENCES envio (codigo);
+
+ALTER TABLE movimientos
+    ADD CONSTRAINT movimientos_estados_fk FOREIGN KEY (estados_id)
+        REFERENCES estados (id);
+
+ALTER TABLE factura
+    ADD CONSTRAINT factura_envio_fk FOREIGN KEY (envio_id)
+        REFERENCES envio (codigo);
+
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_sucursal_fk FOREIGN KEY (sucursal_id)
+        REFERENCES sucursal (id);
