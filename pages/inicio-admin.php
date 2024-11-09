@@ -42,25 +42,25 @@ if (isset($_POST["registrar_usuario"])) {
     $resultadouser = mysqli_query($conexion, "SELECT id FROM usuario WHERE u_name = '$nombre' OR email = '$email'");
 
     if (mysqli_num_rows($resultadouser) > 0) {
-        echo "El usuario con ese user o email ya existe";
+        echo "<p class='noti-err'>El usuario con ese user o email ya existe</p>";
     } else {
         if ($rol == "admin") {
             $resultadoadmin = mysqli_query($conexion, "INSERT INTO usuario (u_name, contrasena, email, rol) VALUES ('$nombre', '$contrasena_encriptada', '$email', 'admin')");
             if ($resultadoadmin === false) {
-                echo "Error al registrarse: " . mysqli_error($conexion);
+                echo "<p class='noti-err'>Error al registrarse: " . mysqli_error($conexion) . "</p>";
             } else {
-                echo "Registro exitoso de administrador";
+                echo "<p class='noti-succ'>Registro exitoso de administrador</p>";
             }
         } else {
             $sucursal = mysqli_real_escape_string($conexion, $_POST['sucursal']);
             if (empty($sucursal)) {
-                echo "Error: Debe seleccionar una sucursal para usuarios no administradores";
+                echo "<p class='noti-err'>Error: Debe seleccionar una sucursal para usuarios no administradores</p>";
             } else {
                 $resultadusuario = mysqli_query($conexion, "INSERT INTO usuario (u_name, contrasena, email, rol, sucursal_id) VALUES ('$nombre', '$contrasena_encriptada', '$email', 'u-suc', '$sucursal')");
                 if ($resultadusuario === false) {
-                    echo "Error al registrarse: " . mysqli_error($conexion);
+                    echo "<p class='noti-err'>Error al registrarse: " . mysqli_error($conexion) . "</p>";
                 } else {
-                    echo "Registro exitoso de usuario de sucursal";
+                    echo "<p class='noti-succ'>Registro exitoso de usuario de sucursal</p>";
                 }
             }
         }
@@ -81,28 +81,28 @@ if (isset($_POST["registrar_sucursal"])){
     $resultadosucursal = mysqli_query($conexion, "SELECT id FROM sucursal WHERE nombre = '$nombre_sucursal' and calle = '$calle' and numero = '$numero' ");
 
     if (mysqli_num_rows($resultadosucursal) > 0) {
-        echo "La sucursal ya existe";
+        echo "<p class='noti-err'>La sucursal ya existe</p>";
     } else {
         if ($rol == "sucursal") {
            
             if (empty($centro)) {
-                echo "Error: Debe seleccionar una sucursal para usuarios no administradores";
+                echo "<p class='noti-err'>Error: Debe seleccionar una sucursal para usuarios no administradores</p>";
             }
             else{
                 $resultadosuc = mysqli_query($conexion, "INSERT INTO sucursal (nombre, calle, numero, localidad, cp, telefono, rol, centro_designado) VALUES ('$nombre_sucursal', '$calle', $numero, '$localidad',$codigo_postal,'$telefono', 'sucursal', '$centro')");
             if ($resultadosuc === false) {
-                echo "Error al registrar: " . mysqli_error($conexion);
+                echo "<p class='noti-err'>Error al registrar: " . mysqli_error($conexion) . "</p>";
             } else {
-                echo "Registro exitoso";
+                echo "<p class='noti-succ'>Registro exitoso</p>";
             }    
          }
             
         } else {
             $resultadocentro = mysqli_query($conexion, "INSERT INTO sucursal (nombre, calle, numero, localidad, cp, telefono, rol) VALUES ('$nombre_sucursal', '$calle', $numero, '$localidad',$codigo_postal,'$telefono', 'centro')");
             if ($resultadocentro=== false) {
-                echo "Error al registrar: " . mysqli_error($conexion);
+                echo "<p class='noti-err'>Error al registrar: " . mysqli_error($conexion) . "</p>";
             } else {
-                echo "Registro exitoso";
+                echo "<p class='noti-succ'>Registro exitoso</p>";
             }
         }
     }
@@ -122,17 +122,16 @@ if (isset($_POST["registrar_sucursal"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Sistema de Gestión de Envíos</title>
     <link rel="stylesheet" href="../css/inicio-admin.css">
-   <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<header>
             <nav class="navbar">
                 <div class="logo">
                     <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
                 </div>
                 <ul class="nav-links">
-                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="../index.php">Inicio</a></li>
                     <li><a href="../services/logout.php">Cerrar Sesion</a></li>
                 </ul>
                 <div class="burger">
@@ -141,7 +140,6 @@ if (isset($_POST["registrar_sucursal"])){
                     <div class="line3"></div>
                 </div>
             </nav>
-        </header>
     <div class="container">
         <h2>Registro de Usuarios</h2>
         <form id="user-form" method="POST">
@@ -181,11 +179,11 @@ if (isset($_POST["registrar_sucursal"])){
          $busqueda = mysqli_real_escape_string($conexion, $_POST['buscar']);
         }
         $resultadoUsuarios = mysqli_query($conexion, "
-                                                SELECT u.id, u.u_name, u.email, u.rol, s.nombre AS sucursal_nombre
-                                                FROM usuario u
-                                                LEFT JOIN sucursal s ON u.sucursal_id = s.id
-                                                WHERE u.u_name LIKE '%$busqueda%' OR u.email LIKE '%$busqueda%'
-                                             ");
+            SELECT u.id, u.u_name, u.email, u.rol, s.nombre AS sucursal_nombre
+            FROM usuario u
+            LEFT JOIN sucursal s ON u.sucursal_id = s.id
+            WHERE u.u_name LIKE '%$busqueda%' OR u.email LIKE '%$busqueda%'
+         ");
         ?>
         
         <div class="search-box">
@@ -202,9 +200,9 @@ if (isset($_POST["registrar_sucursal"])){
             $resultadoEliminar = mysqli_query($conexion, "DELETE FROM usuario WHERE id = '$usuario_id'");
 
             if ($resultadoEliminar) {
-             echo "Usuario eliminado exitosamente";
+             echo "<p class='noti-succ'>Usuario eliminado exitosamente</p>";
          } else {
-              echo "Error al eliminar el usuario: " . mysqli_error($conexion);
+              echo "<p class='noti-err'>Error al eliminar el usuario: " . mysqli_error($conexion) . "</p>";
             }
             }
 
@@ -222,7 +220,7 @@ if (isset($_POST["registrar_sucursal"])){
                 $res = mysqli_fetch_assoc($resultadouser);
                 if ($res['id'] != $id)
                 {
-                    echo "El usuario con ese user o email ya existe";
+                    echo "<p class='noti-err'>El usuario con ese user o email ya existe</p>";
                 }
                 else 
                 {
@@ -231,31 +229,31 @@ if (isset($_POST["registrar_sucursal"])){
                  $resultado = mysqli_query($conexion, "UPDATE usuario SET u_name = '$nombre', email = '$email', rol = '$rol', sucursal_id = NULL WHERE id = '$id'");
                      if ($resultado) 
                     {
-                      echo "Actualización Exitosa de Admin";
+                      echo "<p class='noti-succ'>Actualización Exitosa de Admin</p>";
                      } else 
                     {
-                    echo "Error al Actualizar Admin: " . mysqli_error($conexion);
+                    echo "<p class='noti-err'>Error al Actualizar Admin: " . mysqli_error($conexion) . "</p>";
                       }
                  } elseif ($rol == "u-suc")
                     {
                      if (empty($sucursal)) 
                      {
-                     echo "Error: Debe seleccionar una sucursal para usuarios de sucursal";
+                     echo "<p class='noti-err'>Error: Debe seleccionar una sucursal para usuarios de sucursal</p>";
                      exit;
                      }
                      $resultado = mysqli_query($conexion, "UPDATE usuario SET u_name = '$nombre', email = '$email', rol = '$rol', sucursal_id = '$sucursal' WHERE id = '$id'");
                     if ($resultado) 
                     {
-                     echo "Actualización Exitosa de Usuario Sucursal";
+                     echo "<p class='noti-succ'>Actualización Exitosa de Usuario Sucursal</p>";
                     } 
                      else 
                     {
-                      echo "Error al Actualizar Usuario Sucursal: " . mysqli_error($conexion);
+                      echo "<p class='noti-err'>Error al Actualizar Usuario Sucursal: " . mysqli_error($conexion) . "</p>";
                     }
                       } 
                      else 
                          {
-                    echo "Rol no reconocido: " . $rol;
+                    echo "<p class='noti-err'>Rol no reconocido: " . $rol . "</p>";
                         }
                 }
             }
@@ -386,16 +384,16 @@ if (isset($_POST["registrar_sucursal"])){
         $busquedaSucursal = '';
         if (isset($_POST['buscar_sucursal'])) {
        $busquedaSucursal = mysqli_real_escape_string($conexion, $_POST['buscar_sucursal']);
-                                             }
+        }
 
-                                             $resultadoSucursales = mysqli_query($conexion, "
-                                             SELECT sucursal.*, 
-                                                    (SELECT nombre FROM sucursal AS centro 
-                                                     WHERE centro.id = sucursal.centro_designado 
-                                                       AND centro.rol = 'centro') AS nombre_centro
-                                             FROM sucursal
-                                             WHERE sucursal.nombre LIKE '%$busquedaSucursal%'
-                                         ");  
+        $resultadoSucursales = mysqli_query($conexion, "
+            SELECT sucursal.*, 
+                   (SELECT nombre FROM sucursal AS centro 
+                    WHERE centro.id = sucursal.centro_designado 
+                      AND centro.rol = 'centro') AS nombre_centro
+            FROM sucursal
+            WHERE sucursal.nombre LIKE '%$busquedaSucursal%'
+        ");  
         ?>
 
         <div class="search-box">
@@ -414,15 +412,15 @@ if (isset($_POST["registrar_sucursal"])){
             $row = mysqli_fetch_assoc($resultadoVerificacion);
             
             if ($row['count'] > 0) {
-                echo "No se puede eliminar la sucursal porque hay usuarios asociados a ella.";
+                echo "<p class='noti-err'>No se puede eliminar la sucursal porque hay usuarios asociados a ella.</p>";
             } else {
                 // si no hay usuarios elimino
                 $resultadoEliminar = mysqli_query($conexion, "DELETE FROM sucursal WHERE id = '$sucursal_id'");
                 
                 if ($resultadoEliminar) {
-                    echo "Sucursal eliminada exitosamente";
+                    echo "<p class='noti-succ'>Sucursal eliminada exitosamente</p>";
                 } else {
-                    echo "Error al eliminar la sucursal: " . mysqli_error($conexion);
+                    echo "<p class='noti-err'>Error al eliminar la sucursal: " . mysqli_error($conexion) . "</p>";
                 }
             }
         }
@@ -443,7 +441,7 @@ if (isset($_POST["registrar_sucursal"])){
                 $resultado = mysqli_query($conexion, "SELECT id FROM sucursal WHERE nombre = '$nombre' AND calle = '$calle' and numero = '$numero' and id != '$sucursal_id'");
                 if (mysqli_num_rows($resultado) >0)
                 {     
-                        echo "Ya existe una sucursal registrada con esos datos";
+                        echo "<p class='noti-err'>Ya existe una sucursal registrada con esos datos</p>";
                 }
                 else
                 {
@@ -456,18 +454,18 @@ if (isset($_POST["registrar_sucursal"])){
                         {
                             if (empty($centro)) 
                             {
-                             echo "Error: Debe seleccionar un centro de distribución";
+                             echo "<p class='noti-err'>Error: Debe seleccionar un centro de distribución</p>";
                             }
                             else
                             {
                                 $resultadosucu = mysqli_query($conexion,"UPDATE sucursal SET nombre='$nombre', calle='$calle', numero=$numero, localidad='$localidad', cp='$codigo_postal', telefono='$telefono', rol = '$rol' , centro_designado = $centro WHERE id='$sucursal_id'" );
                                 if ($resultadosucu === false) 
                                 {
-                                    echo "Error al actualizar: " . mysqli_error($conexion);
+                                    echo "<p class='noti-err'>Error al actualizar: " . mysqli_error($conexion) . "</p>";
                                 } 
                                 else 
                                 {
-                                    echo "Actualizacion exitosa";
+                                    echo "<p class='noti-succ'>Actualizacion exitosa</p>";
                                 }    
                             }
                     }
@@ -476,11 +474,11 @@ if (isset($_POST["registrar_sucursal"])){
                             $resultadosucu = mysqli_query($conexion,"UPDATE sucursal SET nombre='$nombre', calle='$calle', numero=$numero, localidad='$localidad', cp='$codigo_postal', telefono='$telefono', rol = '$rol' , centro_designado = NULL WHERE id='$sucursal_id'" );
                             if ($resultadosucu === false) 
                             {
-                                echo "Error al actualizar: " . mysqli_error($conexion);
+                                echo "<p class='noti-err'>Error al actualizar: " . mysqli_error($conexion) . "</p>";
                             } 
                             else 
                             {
-                                echo "Actualizacion exitosa";
+                                echo "<p class='noti-succ'>Actualizacion exitosa</p>";
                             }    
                         }
 
@@ -494,18 +492,18 @@ if (isset($_POST["registrar_sucursal"])){
                             $r = mysqli_query($conexion,"SELECT * FROM sucursal WHERE centro_designado = '$sucursal_id'");
                             if (mysqli_num_rows($r) > 0)
                             {
-                                echo "No puede realizarse el cambio de rol ya que este centro esta asignado a una o mas sucursales";
+                                echo "<p class='noti-err'>No puede realizarse el cambio de rol ya que este centro esta asignado a una o mas sucursales</p>";
                             }
                             else
                             {
                                 $resultadosucu = mysqli_query($conexion,"UPDATE sucursal SET nombre='$nombre', calle='$calle', numero=$numero, localidad='$localidad', cp='$codigo_postal', telefono='$telefono', rol = '$rol' , centro_designado = $centro WHERE id='$sucursal_id'" );
                                 if ($resultadosucu === false) 
                                 {
-                                 echo "Error al actualizar: " . mysqli_error($conexion);
+                                 echo "<p class='noti-err'>Error al actualizar: " . mysqli_error($conexion) . "</p>";
                                 } 
                              else 
                              {
-                                 echo "Actualizacion exitosa";
+                                 echo "<p class='noti-succ'>Actualizacion exitosa </p>";
                                 }  
 
                             }
@@ -515,11 +513,11 @@ if (isset($_POST["registrar_sucursal"])){
                          $resultadosucu = mysqli_query($conexion,"UPDATE sucursal SET nombre='$nombre', calle='$calle', numero=$numero, localidad='$localidad', cp='$codigo_postal', telefono='$telefono', rol = '$rol' , centro_designado = NULL WHERE id='$sucursal_id'" );
                             if ($resultadosucu === false) 
                             {
-                                echo "Error al actualizar: " . mysqli_error($conexion);
+                                echo "<p class='noti-err'>Error al actualizar: " . mysqli_error($conexion) . "</p>";
                             } 
                             else 
                             {
-                                echo "Actualizacion exitosa";
+                                echo "<p class='noti-succ'>Actualizacion exitosa</p>";
                             }  
 
                         }
@@ -530,7 +528,7 @@ if (isset($_POST["registrar_sucursal"])){
                
             }  
             else{
-                echo "Error al actualizar, todas las sucursales deben tener un rol";
+                echo "<p class='noti-err'>Error al actualizar, todas las sucursales deben tener un rol</p>";
             }
         }          
         ?>

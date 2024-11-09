@@ -39,6 +39,8 @@ function obtenerValor($campo) {
         <title>Admisión de Envíos</title>
         <link rel="stylesheet" href="../css/admision.css">
         <link rel="stylesheet" href="../css/global.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
     </head>
     <body>
         <header>
@@ -239,6 +241,7 @@ function obtenerValor($campo) {
             var senderReceiverForm = document.getElementById('senderReceiverForm');
             senderReceiverForm.style.display = <?php echo $mostrarFormulario ? "'block'" : "'none'"; ?>;
         });
+        
         </script>
         <script src="../js/script.js"></script>
     </body>

@@ -149,11 +149,15 @@ exit;
                     }
                     $respuesta_enviosxsuc = mysqli_query($conexion, $sql);
                     while($result = mysqli_fetch_assoc($respuesta_enviosxsuc)){
+                        $respuesta_remitente = mysqli_query($conexion , "SELECT C.nombre FROM cliente C INNER JOIN envio E ON '$result[remitente]' = C.id");
+                        $respuesta_destinatario = mysqli_query($conexion , "SELECT C.nombre FROM cliente C INNER JOIN envio E ON '$result[destinatario]' = C.id");
+                        $nombre_remitente = mysqli_fetch_assoc($respuesta_remitente)['nombre'];
+                        $nombre_destinatario = mysqli_fetch_assoc($respuesta_destinatario)['nombre'];
                         echo("
                         <tr>
                             <td>{$result['codigo']}</td>
-                            <td>{$result['remitente']}</td>
-                            <td>{$result['destinatario']}</td>
+                            <td>{$nombre_remitente}</td>
+                            <td>{$nombre_destinatario}</td>
                             <td>{$result['nombre_origen']}</td>
                             <td>{$result['nombre_destino']}</td>
                             <td>{$result['fecha']}</td>
@@ -175,7 +179,7 @@ exit;
         </div>
         <div class="buttonWrapper">
             <button id="botonManifiesto" class="action-btn"
-                onclick="window.open('../services/gestionManifiestos.php', '_blank'); window.location.reload();">
+                onclick="window.open('../services/gestionManifiestos.php'); window.location.reload();">
             Generar manifiesto
             </button>
         </div>

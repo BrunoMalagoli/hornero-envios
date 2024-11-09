@@ -105,7 +105,7 @@ $fecha= date('Y-m-d H:i:s');
                 <input type="hidden" name="email_destinatario" value="<?php echo isset($_POST['email_destinatario']) ? $_POST['email_destinatario'] : ''; ?>"> 
                 
                 <div class="button-group">
-                    <button type="submit" class="btn btn-primary">PAGAR</button>
+                    <button id="botonPago" type="submit" class="btn btn-primary">PAGAR</button>
                 </div>
             </form>
         </div>

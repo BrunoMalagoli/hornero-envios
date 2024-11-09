@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     background-color:#806fcc;
     margin: 0;
-    padding: 20px;
+    padding: 0px 0px 20px 0px;
 }
 
 .formu {
@@ -107,4 +107,14 @@ th {
     display: flex;
     gap: 10px; /* Espacio entre cada checkbox */
     align-items: center;
+}
+.noti-succ{
+    padding: 25px 10px 25px 10px;
+    background-color: rgb(153, 253, 153);
+    color: #f2f2f2;
+}
+.noti-err{
+    padding: 25px 10px 25px 10px;
+    background-color: rgb(255, 117, 117);
+    color: #000000;
 }

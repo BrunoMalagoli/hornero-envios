@@ -1,3 +1,13 @@
+<?php
+session_start();
+include("./config/dbconnect.php");
+$resultadoSucursales = mysqli_query($conexion, "SELECT id, nombre FROM sucursal ORDER BY nombre ASC");
+
+$sucursales = [];
+while ($sucursal = mysqli_fetch_assoc($resultadoSucursales)) {
+    $sucursales[] = $sucursal;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +21,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar">
+    <nav class="navbar">
             <div class="logo">
                 <a href="./index.php"><img src="images/LOGO_TRANSPARENTE.png" alt="Logo de la empresa"></a>
             </div>
@@ -30,7 +40,7 @@
     </header>
 
     <main>
-        <section id="hero">
+    <section id="hero">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
@@ -62,29 +72,55 @@
         </section>
 
         <section id="formularios">
-            <div class="form-container">
-                <div class="form-tabs">
-                    <button class="tab-button active" data-tab="cotizar">Cotizar envío</button>
-                    <button class="tab-button" data-tab="seguimiento">Seguimiento</button>
-                </div>
-                <form id="cotizarForm" method="POST" class="form active">
-                    <h2>Cotizar envío</h2>
-                    <input type="number" name="peso" placeholder="Peso (kg)" required>
-                    <input type="number" name="alto" placeholder="Alto (cm)" required>
-                    <input type="number" name="ancho" placeholder="Ancho (cm)" required>
-                    <input type="number" name="largo" placeholder="Largo (cm)" required>
-                    <input type="text" name="origen" placeholder="Origen" required>
-                    <input type="text" name="destino" placeholder="Destino" required>
-                    <button type="submit">Cotizar</button>
-                </form>
-                <div id="resultadoCotizacion"></div>
-                <form id="seguimientoForm" method="POST" class="form">
-                    <h2>Seguimiento de envío</h2>
-                    <input type="text" placeholder="Código de seguimiento" required>
-                    <button type="submit">Rastrear</button>
-                </form>
+        <div class="form-container">
+            <div class="form-tabs">
+                <button class="tab-button active" data-tab="cotizar">Cotizar envío</button>
+                <button class="tab-button" data-tab="seguimiento">Seguimiento</button>
             </div>
-        </section>
+            <form id="cotizarForm" method="POST" class="form active">
+                <h2>Cotizar envío</h2>
+                <div class="form-group">
+                    <input type="number" min=1 max=100 id="peso" name="peso" placeholder="Peso (kg)" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" min=1 max=100 name="alto" name="alto" placeholder="Alto (cm)" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" min=1 max=100 name="ancho" name="ancho" placeholder="Ancho (cm)" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" min=1  max=100 name="largo" placeholder="Largo (cm)" required>
+                </div>
+                <div class="form-group" id="sucursal-group">
+                     <select id="sucursal" name="sucursal_origen" style = "font-size: 1.2em; padding: 3px; width: 100%; max-width: 700px; margin-bottom: 10px; margin-top: 10px">
+                         <option value="">Sucursal Origen</option>
+                         <?php foreach ($sucursales as $sucursal): ?>
+                         <option value="<?php echo $sucursal['id']; ?>"><?php echo htmlspecialchars($sucursal['nombre']); ?></option>
+                         <?php endforeach; ?>
+                     </select>
+                 </div>
+                 <div class="form-group" id="sucursal-group">
+                     <select id="sucursal" name="sucursal_destino" style = "font-size: 1.2em; padding: 3px; width: 100%; max-width: 700px; margin-bottom: 10px; margin-top: 10px">
+                         <option value="">Sucursal Destino</option>
+                         <?php foreach ($sucursales as $sucursal): ?>
+                         <option value="<?php echo $sucursal['id']; ?>"><?php echo htmlspecialchars($sucursal['nombre']); ?></option>
+                         <?php endforeach; ?>
+                     </select> 
+                 </div>
+                <button type="submit">Cotizar</button>
+            </form>
+            <div id ="resultadoCotizacion"></div>
+            <div>
+            <form id="seguimientoForm" method = "POST" class="form">
+                <h2>Seguimiento de envío</h2>
+                <input type="text" id ="codigo" name = "codigo" placeholder="Código de seguimiento" required>   
+                <button type="submit" name ="seguimiento">Rastrear</button>
+            </form>
+            <div class="resultadosSeguimiento">
+            </div>
+            </div>
+        </div>
+    </section>
 
         <section id="servicios">
             <h2>Nuestros Servicios</h2>

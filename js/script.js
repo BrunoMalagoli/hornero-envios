@@ -51,7 +51,28 @@ tabButtons.forEach((button) => {
     document.getElementById(`${tabName}Form`).classList.add("active");
   });
 });
+const botonesCambioForm = document.querySelectorAll(".tab-button");
 
+botonesCambioForm.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    const tab = boton.getAttribute("data-tab");
+    if (tab == "seguimiento") {
+      // Muestra el formulario de seguimiento y oculta el de cotización
+      document.getElementById("seguimientoForm").classList.add("active");
+      document.getElementById("cotizarForm").classList.remove("active");
+
+      // Limpia el resultado de cotización (si es necesario)
+      document.getElementById("resultadoCotizacion").innerHTML = "";
+    } else if (tab == "cotizar") {
+      // Muestra el formulario de cotización y oculta el de seguimiento
+      document.getElementById("cotizarForm").classList.add("active");
+      document.getElementById("seguimientoForm").classList.remove("active");
+
+      // Limpia el resultado de seguimiento (si es necesario)
+      document.querySelector(".resultadosSeguimiento").innerHTML = "";
+    }
+  });
+});
 // Animación de las tarjetas de servicios
 const serviceCards = document.querySelectorAll(".service-card");
 
@@ -94,6 +115,32 @@ document.getElementById("cotizarForm").addEventListener("submit", function (e) {
       console.error("Error:", error);
     });
 });
+
+document
+  .getElementById("seguimientoForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
+    fetch("./services/seguimiento.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        // Mostrar el resultado en el div
+        const resultadosDiv = document.querySelector(".resultadosSeguimiento");
+        if (resultadosDiv) {
+          resultadosDiv.innerHTML = data;
+        } else {
+          console.error(
+            "No se encontró un elemento con la clase 'resultadosSeguimiento'"
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
 
 // document.getElementById("seguimientoForm").addEventListener("submit", (e) => {
 //   e.preventDefault();
