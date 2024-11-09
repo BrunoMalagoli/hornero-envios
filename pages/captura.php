@@ -139,7 +139,7 @@ if (isset($_POST["buscar_envio"]))
                     <label for="codigo-envio">Código de envio:</label>
                     <input type="text" id="codigo_envio" name="codigo_envio" required>
                 </div>
-                <button type="submit" name="buscar_envio">BUSCAR</button>
+                <button type="submit" class="btn btn-primary" name="buscar_envio">BUSCAR</button>
             </form>
             <?php if (!empty($message)): ?>
                 <div class="message <?php echo strpos($message, 'Error') !== false ? 'error' : 'success'; ?>">

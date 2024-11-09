@@ -98,18 +98,24 @@ serviceCards.forEach((card) => {
 
 document.getElementById("cotizarForm").addEventListener("submit", function (e) {
   e.preventDefault(); // Prevenir el recargo de la página
+
+  document.getElementById("loadingGif").style.display = "block";
   // Crear un objeto FormData con los datos del formulario
   let formData = new FormData(this);
 
   // Hacer la solicitud AJAX
-  fetch("./services/cotizar.php", {
+  fetch("./services/fetch_cotizar.php", {
     method: "POST",
     body: formData,
   })
     .then((response) => response.text()) // Obtener la respuesta como texto
     .then((data) => {
+      document.getElementById("loadingGif").style.display = "none";
       // Mostrar el resultado en el div
-      document.getElementById("resultadoCotizacion").innerHTML = data;
+      document.getElementById("resultadoCotizacion").innerHTML =
+        '<i class="fa-solid fa-store" style="font-size: 100px; color: #FFF; display: block; margin-bottom: 10px;"></i>' +
+        "ENVIO A SUCURSAL: $" +
+        data.trim();
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -141,13 +147,3 @@ document
         console.error("Error:", error);
       });
   });
-
-// document.getElementById("seguimientoForm").addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   alert("Rastreando envío. "); // Aquí podrías implementar la lógica real de rastreo
-// });
-
-// document.getElementById("contactForm").addEventListener("submit", (e) => {
-//   e.preventDefault();
-//   alert("Mensaje enviado. Gracias por contactarnos.");
-// });

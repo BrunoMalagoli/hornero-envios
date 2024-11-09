@@ -35,14 +35,7 @@ document.getElementById("user-form").addEventListener("submit", function (e) {
     alert(
       "Por favor, selecciona una sucursal para usuarios no administradores."
     );
-  } else {
-    alert("Formulario de usuario enviado");
   }
-});
-
-// Manejar el envío del formulario de sucursal
-document.getElementById("branch-form").addEventListener("submit", function (e) {
-  alert("Formulario de sucursal enviado");
 });
 
 function editSucursal(id, nombre, calle, numero, localidad, cp, telefono) {

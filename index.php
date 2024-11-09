@@ -53,8 +53,8 @@ while ($sucursal = mysqli_fetch_assoc($resultadoSucursales)) {
                     <div class="swiper-slide">
                         <img src="images/index2.jpg" alt="Slide 1">
                         <div class="slide-content">
-                            <h1>Cobertura nacional</h1>
-                            <p>Llegamos a todos los rincones del país</p>
+                            <h1>Cobertura en todo Zona Oeste</h1>
+                            <p>Llegamos a todos los rincones de la Zona Oeste del GBA</p>
                         </div>
                     </div>
                     <div class="swiper-slide">
@@ -91,6 +91,9 @@ while ($sucursal = mysqli_fetch_assoc($resultadoSucursales)) {
                 <div class="form-group">
                     <input type="number" min=1  max=100 name="largo" placeholder="Largo (cm)" required>
                 </div>
+                <div class="form-group">
+                    <input type="number" name="valor" placeholder="Valor de seguro" required>
+                </div>
                 <div class="form-group" id="sucursal-group">
                      <select id="sucursal" name="sucursal_origen" style = "font-size: 1.2em; padding: 3px; width: 100%; max-width: 700px; margin-bottom: 10px; margin-top: 10px">
                          <option value="">Sucursal Origen</option>
@@ -110,6 +113,7 @@ while ($sucursal = mysqli_fetch_assoc($resultadoSucursales)) {
                 <button type="submit">Cotizar</button>
             </form>
             <div id ="resultadoCotizacion"></div>
+            <img id="loadingGif" src="images/loading.gif" alt="Cargando..." style="display: none;">
             <div>
             <form id="seguimientoForm" method = "POST" class="form">
                 <h2>Seguimiento de envío</h2>
@@ -155,7 +159,7 @@ while ($sucursal = mysqli_fetch_assoc($resultadoSucursales)) {
                 <ul>
                     <li><a href="#inicio">Inicio</a></li>
                     <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="./pages/contacto.php">Contacto</a></li>
                 </ul>
             </div>
             <div class="footer-section">

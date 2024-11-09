@@ -131,7 +131,11 @@ if (isset($_POST["registrar_sucursal"])){
                     <img src="../images/LOGO_TRANSPARENTE.png" alt="LOGO">
                 </div>
                 <ul class="nav-links">
-                    <li><a href="../index.php">Inicio</a></li>
+                <p>USUARIO : 
+                    <?php
+                        echo $_SESSION['usuario'];
+                    ?>
+                    </p>
                     <li><a href="../services/logout.php">Cerrar Sesion</a></li>
                 </ul>
                 <div class="burger">
@@ -155,7 +159,7 @@ if (isset($_POST["registrar_sucursal"])){
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div class="form-group">
+            <div class="form-group-tipo-suc">
                 <label>Rol:</label>
                 <input type="radio" id="admin" name="rol" value="admin" checked>
                 <label for="admin">Administrador</label>
@@ -348,9 +352,10 @@ if (isset($_POST["registrar_sucursal"])){
                 <label for="numero">Número:</label>
                 <input type="text" id="numero" name="numero" required>
             </div>
-            <div class="form-group">
+            <div class="form-group locality-input-container">
                 <label for="localidad">Localidad:</label>
-                <input type="text" id="localidad" name="localidad" required>
+                <input type="text" id="address-input" name="localidad" onkeyup="autocompleteAddress()" required>
+                <ul id="suggestions-list"></ul>
             </div>
             <div class="form-group">
                 <label for="codigo-postal">Código Postal:</label>
@@ -360,12 +365,14 @@ if (isset($_POST["registrar_sucursal"])){
                 <label for="telefono">Teléfono:</label>
                 <input type="text" id="telefono" name="telefono" required>
             </div>
-            <div class="form-group">
+            <div class="form-group-tipo-suc">
                 <label>Tipo:</label>
                 <input type="radio" id="centro-distribucion" name="rol" value="centro-distribucion" checked>
                 <label for="centro-distribucion">Centro de Distribución</label>
                 <input type="radio" id="sucursal" name="rol" value="sucursal">
                 <label for="sucursal">Sucursal</label>
+            </div>
+            <div class="form-group">
                 <div class="form-group" id="centro-group" style="display:none;">
                 <label for="centro">Centro de distribución:</label>
                 <select id="centro" name="centro">
@@ -572,7 +579,7 @@ if (isset($_POST["registrar_sucursal"])){
 <h2>Editar Sucursal</h2>
 <div class="formu" id="edit-branch-form"  style="display:none;"  >
     <div class = "formu">
-    <form method="POST">
+    <form id="formu-edicion" method="POST">
         <input type="hidden" id="edit-sucursal-id" name="sucursal_id" >
         <div class="form-group">
             <label for="edit-nombre-sucursal">Nombre:</label>
@@ -626,6 +633,50 @@ if (isset($_POST["registrar_sucursal"])){
     <br><br/>
 <script src="../js/script.js"></script>
 <script src="../js/admin.js"></script>
+<script>
+    let timeoutId;
+
+    async function autocompleteAddress() {
+    const query = document.getElementById('address-input').value;
+    if (query.length < 3) return; // Espera hasta que el usuario haya escrito al menos 3 caracteres.
+
+    // Cancela cualquier solicitud anterior si el usuario sigue escribiendo
+    clearTimeout(timeoutId);
+
+    // Establece un pequeño retraso para reducir la cantidad de solicitudes
+    timeoutId = setTimeout(async () => {
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=AR`;
+        
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'User-Agent': 'TuApp/1.0 (tuemail@dominio.com)'  // Requerido por Nominatim
+                }
+            });
+            const data = await response.json();
+
+            // Limpia sugerencias previas
+            document.getElementById('suggestions-list').innerHTML = '';
+
+            // Muestra sugerencias
+            data.forEach(item => {
+                const suggestion = document.createElement('li');
+                suggestion.textContent = item.display_name;
+                suggestion.onclick = () => selectAddress(item);
+                document.getElementById('suggestions-list').appendChild(suggestion);
+            });
+        } catch (error) {
+            console.error("Error fetching address data:", error);
+        }
+    }, 300); // Espera 300 ms antes de hacer la solicitud
+}
+
+function selectAddress(item) {
+    document.getElementById('address-input').value = item.display_name;
+    console.log("Coordenadas:", item.lat, item.lon);
+    document.getElementById('suggestions-list').innerHTML = ''; // Limpia la lista de sugerencias
+}
+</script>
 </body>
 </html>
 

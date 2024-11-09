@@ -25,11 +25,11 @@ body, html {
 }
 
 .skyline {
-    height: 100px;
+    height: 150px;
+    background-image: url("../images/LOGO_TRANSPARENTE.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    margin-bottom: 20px;
 }
 
 .logo-space {

@@ -31,6 +31,18 @@ h2 {
     margin-bottom: 15px;
 }
 
+.form-group-tipo-suc{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+.form-group-tipo-suc label{
+    margin: 0;
+}
+.form-group-tipo-suc input{
+    margin: 15px;
+}
 label {
     display: block;
     margin-bottom: 5px;
@@ -111,10 +123,62 @@ th {
 .noti-succ{
     padding: 25px 10px 25px 10px;
     background-color: rgb(153, 253, 153);
-    color: #f2f2f2;
+    color: #000000;
+    margin-bottom: 0;
 }
 .noti-err{
     padding: 25px 10px 25px 10px;
     background-color: rgb(255, 117, 117);
     color: #000000;
+    margin-bottom: 0;
 }
+
+.locality-input-container {
+    position: relative;
+    max-width: 60%;
+    }
+
+    #address-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    }
+
+    #address-input:focus {
+    border-color: #4f518c;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79, 81, 140, 0.2);
+    }
+
+    #suggestions-list {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    }
+
+    #suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    }
+
+    #suggestions-list li:hover {
+    background-color: #f0f0f0;
+    }
+
+    #suggestions-list li:not(:last-child) {
+    border-bottom: 1px solid #eee;
+    }

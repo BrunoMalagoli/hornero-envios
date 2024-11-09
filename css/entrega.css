@@ -53,11 +53,14 @@ h2 {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    padding: 0px 10px 0px 10px;
+    gap: 20px;
 }
 
 .form-group {
     flex: 1;
     margin-right: 10px;
+    width: 40%;
 }
 
 .form-group:last-child {

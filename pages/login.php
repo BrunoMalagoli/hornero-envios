@@ -50,9 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="login-box">
             <div class="skyline"></div>
-            <div class="logo-space">
-                <!-- Espacio para tu logo -->
-            </div>
             <form action="" method = "post">
                 <h2>INTRODUZCA SUS DATOS PARA INICIAR SESIÓN</h2>
                 <div class="input-group">

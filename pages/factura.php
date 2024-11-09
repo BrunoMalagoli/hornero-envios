@@ -16,9 +16,10 @@
         }
         else echo "no se pudo guardar destinatario";
 
-        $sucursal_dest = mysqli_query($conexion,"SELECT id from sucursal where nombre='$_POST[sucursal_destino]';");
+        $sucursal_dest = mysqli_query($conexion,"SELECT * from sucursal where nombre='$_POST[sucursal_destino]';");
         $resultado = mysqli_fetch_assoc($sucursal_dest);
         $suc_dest_id = $resultado['id'];
+        $direccion_dest = "$resultado[calle], $resultado[numero]";
 
         $factura= mysqli_query($conexion, "INSERT INTO factura (descripcion, fecha) values ('$_POST[descripcion]','$fecha')");
         if ($factura){
@@ -26,9 +27,10 @@
         }
         else echo "no se pudo guardar factura";
 
-        $sucursal_origen = mysqli_query($conexion,"SELECT id from sucursal where nombre='$_POST[sucursal_origen]';");
+        $sucursal_origen = mysqli_query($conexion,"SELECT * from sucursal where nombre='$_POST[sucursal_origen]';");
         $resultado = mysqli_fetch_assoc($sucursal_origen);
         $suc_orig_id = $resultado['id'];
+        $direccion_origen = "$resultado[calle], $resultado[numero]";
 
         $envio= mysqli_query($conexion, "INSERT INTO envio (fecha, peso, alto, ancho, largo, destinatario, remitente, sucursal_destino,sucursal_actual, sucursal_origen, factura_id, precio, valor_seguro, descripcion) values ('$fecha','$_POST[peso]','$_POST[alto]','$_POST[ancho]','$_POST[largo]','$destinatario_id','$remitente_id','$suc_dest_id','$suc_orig_id','$suc_orig_id', '$factura_id','$_POST[precio]','$_POST[valor]','$_POST[descripcion]')");
         if ($envio){
@@ -57,7 +59,14 @@
         }
         else echo "no se pudo guardar estado";
    
+    }
+    else    /*{aca necesito una alerta*/
+            /*header("Location:admision-envios.php");
+            exit;*/
+            echo "No se pudieron recibir los datos de admision de envíos";
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -96,7 +105,7 @@
         <div class="inline-containers" style="margin-top: 2mm;">
             <div class="border-box half-width">
                 <span class="bold">SUCURSAL ORIGEN:</span><br><?php echo $_POST['sucursal_origen'];?><br>
-                MERLO<br><br>
+                <?php echo $direccion_origen?><br><br>
                 <span class="bold">REMITENTE:</span><br>
                 <?php echo $_POST['nombre_remitente'];?><br>
                 CUIL <?php echo $_POST['cuil_remitente'];?><br>
@@ -106,7 +115,7 @@
             <div class="border-box half-width">
                 <span class="bold">SUCURSAL DESTINO:</span><br>
                 <?php echo $_POST['sucursal_destino'];?><br>
-                [Dirección de la sucursal destino]<br><br>
+                <?php echo $direccion_dest?><br><br>
                 <span class="bold">DESTINATARIO:</span><br>
                 <?php echo $_POST['nombre_destinatario'];?><br>
                 CUIL <?php echo $_POST['cuil_destinatario'];?><br>
@@ -117,12 +126,10 @@
         <div class="info-grid" style="margin-top: 2mm;">
             <div class="border-box full-width">
                 <span class="bold">ENCOMIENDA</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kg: <?php echo $_POST['peso'];?>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALOR ASEGURADO $ <?php echo $_POST['valor'];?>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kg: <?php echo $_POST['peso'];?>                
             </div>
             <div class="border-box full-width">
-                <span class="bold">P. REEMBOLSO</span><br>
-                $10,040.00
+                <span class="bold">VALOR ASEGURADO $ <?php echo $_POST['valor'];?></span>
             </div>
         </div>
 
@@ -132,10 +139,3 @@
         
     </body>
 </html>
-<?php
-}
-else    /*{aca necesito una alerta*/
-        /*header("Location:admision-envios.php");
-        exit;*/
-        echo "NO FUNCA";
-?>

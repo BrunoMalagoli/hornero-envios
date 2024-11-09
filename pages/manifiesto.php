@@ -23,6 +23,7 @@ if(isset($_SESSION['manifiestos'][$manifiesto_id])) {
     $manifiesto = $_SESSION['manifiestos'][$manifiesto_id];
     $envios = $manifiesto['datos'];
     $destino_manifiesto = $manifiesto['destino'];
+    $destino_final = $manifiesto['destino_final'];
 } else {
     echo "Manifiesto no encontrado";
 }
@@ -46,7 +47,7 @@ $envios_por_pagina = 54;
 $total_paginas = ceil($total_envios / $envios_por_pagina);
 // Función para generar una página del manifiesto
 function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
-    global $fecha_actual , $conexion , $sucursal_actual , $respuesta_envios_sucact , $manifiesto_id, $destino_manifiesto;
+    global $fecha_actual , $conexion , $sucursal_actual , $respuesta_envios_sucact , $manifiesto_id, $destino_manifiesto , $destino_final;
     ?>
     <div class="pagina">
         <div class="header">
@@ -66,8 +67,8 @@ function generarPagina($envios, $inicio, $fin, $numero_pagina, $total_paginas) {
                     $consulta = mysqli_query($conexion, "SELECT nombre FROM sucursal WHERE id = $destino_manifiesto");
                     $nombre_sucursal = mysqli_fetch_assoc($consulta)['nombre'];
                     echo $nombre_sucursal . " (" . $destino_manifiesto . ")";?></td> 
-                    <td>FECHA DE RETIRO:</td>
-                    <td><?php echo $fecha_actual; ?></td>
+                    <td>DESTINO FINAL:</td>
+                    <td><?php echo $destino_final != null ? mysqli_fetch_assoc(mysqli_query($conexion , "SELECT nombre FROM sucursal WHERE id = '$destino_final'"))['nombre'] . " (" . $destino_final . ")" : ""  ?></td>
                     <td>USUARIO:</td>
                     <td><?php echo $_SESSION['usuario']; ?></td>
                 </tr>

@@ -20,10 +20,20 @@
         color: #fff;
     }
     
-    .logo img {
-        height: 40px;
+    .logo {
+        width: 100px;
+        height: 100%;
+        background-color: white;
+        border-radius: 100px;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
     }
     
+    .logo img {
+        height: 100%;
+        width: 100px;
+    }
     .nav-links {
         display: flex;
         list-style: none;
@@ -56,7 +66,9 @@
         height: 100vh;
         position: relative;
         overflow: hidden;
-        filter: contrast();
+    }
+    #hero img{
+        filter: brightness(0.5);
     }
     
     .swiper-container {
@@ -127,6 +139,8 @@
         width: 100%;
         margin-bottom: 1rem;
         padding: 0.5rem;
+        border: 1px solid white;
+        border-radius: 5px;
     }
     
     
@@ -224,7 +238,10 @@
         padding: 10px;
         text-align: left;
     }
-    
+    #sucursal{
+        border: 1px solid white;
+        border-radius: 5px;
+    }
     .resultadoSeguimiento th {
         background-color: #4f518c;
         color: white;
@@ -260,4 +277,27 @@
         .nav-active.show {
             transform: translateX(0%);
         }
+    }
+
+    #resultadoCotizacion {
+        background-color: #292e47;
+        color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-size: 24px;
+        font-weight: bold;
+        border: 3px solid #fff;  
+        display: none; 
+    }
+    
+    #resultadoCotizacion:not(:empty) {
+        display: block; 
+    }
+    
+    #loadingGif {
+        align-items: center;
+        padding-left: 200px;
     }

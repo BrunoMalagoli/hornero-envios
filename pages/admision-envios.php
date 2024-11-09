@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 $sucursal = $_SESSION["sucursal"];
 $_SESSION['acceso_pago'] = true;
@@ -17,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['accion'])) {
         if ($_POST['accion'] === 'ver_precio') {
             // Calculamos el precio
-            include '../services/funciones.php';
+            include '../services/cotizar.php';
             if (!empty($_POST['peso']) && !empty($_POST['largo']) && !empty($_POST['ancho']) && !empty($_POST['alto'])) {
-                $precio = calculo_Envio($_POST);
+                $precio = calculo_Envio();
                 $mostrarFormulario = true; 
             }
         }
@@ -39,8 +40,6 @@ function obtenerValor($campo) {
         <title>Admisión de Envíos</title>
         <link rel="stylesheet" href="../css/admision.css">
         <link rel="stylesheet" href="../css/global.css">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        
     </head>
     <body>
         <header>
@@ -74,7 +73,7 @@ function obtenerValor($campo) {
             <h1>ADMISIÓN DE ENVÍOS</h1>
             
             
-            <form method="post" action="">
+            <form id="precioForm" method="post" action="">
                 <div class="bordered-section">
                     <div class="form-row">
                         <div class="form-group">
@@ -90,7 +89,7 @@ function obtenerValor($campo) {
                                     <option value="">Seleccione un destino</option>
                                     <?php
                                     include '../config/dbconnect.php';
-                                    $consulta = mysqli_query($conexion, "SELECT nombre FROM sucursal;");
+                                    $consulta = mysqli_query($conexion, "SELECT nombre FROM sucursal ORDER BY nombre;");
                                     if ($consulta) {
                                         while($resultados = mysqli_fetch_assoc($consulta)) {
                                             $selected = ($resultados['nombre'] == obtenerValor('sucursal_destino')) ? 'selected' : '';
@@ -146,13 +145,20 @@ function obtenerValor($campo) {
                 <!-- Muestra el precio -->
                 <div class="price-box">
                     HORNERO ENVÍOS<br>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($precio) && $precio > 0) {
-                        echo "<p>Precio: \$$precio</p>";
-                    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'ver_precio') {
-                        echo "<p>Por favor, complete todos los campos para calcular el precio.</p>";
-                    }
-                    ?>
+                    <div id="precio-info">
+                        <?php
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($precio) && $precio > 0) {
+                            echo "<p>Precio: \$$precio</p>";
+                        } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'ver_precio') {
+                            echo "<p>Por favor, complete todos los campos para calcular el precio.</p>";
+                        }
+                        ?>
+                    </div>
+                    
+                    <!-- GIF de carga, inicialmente oculto -->
+                    <div id="loading" style="display: none; text-align: center;">
+                        <img height="50px" width="50px" src="../images/loading.gif" alt="Cargando..." />
+                    </div>
                 </div>
             
             <form id="senderReceiverForm" method="POST" action="pago.php" target="_blank" onsubmit="return validarGuardar()">        
@@ -241,7 +247,21 @@ function obtenerValor($campo) {
             var senderReceiverForm = document.getElementById('senderReceiverForm');
             senderReceiverForm.style.display = <?php echo $mostrarFormulario ? "'block'" : "'none'"; ?>;
         });
-        
+        const form = document.getElementById('precioForm');
+        const loading = document.getElementById('loading');
+        const precioInfo = document.getElementById('precio-info');
+
+        form.addEventListener('submit', function() {
+            // Mostrar el gif de carga y ocultar el contenido de `precio-info`
+            loading.style.display = 'block';
+            precioInfo.style.display = 'none';
+        });
+
+        // Esto oculta el GIF después de que se carga la página
+        window.addEventListener('load', function() {
+            loading.style.display = 'none';
+            precioInfo.style.display = 'block';
+        });
         </script>
         <script src="../js/script.js"></script>
     </body>

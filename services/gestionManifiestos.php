@@ -29,76 +29,102 @@ if($datos_rol_origen['rol'] == 'sucursal'){ //SUCURSAL
     $manifiesto_destino = $datos_rol_origen['centro_designado'];
     $_SESSION['manifiestos'][] = [
         'datos' => $envios,
-        'destino' => $manifiesto_destino
+        'destino' => $manifiesto_destino,
+        'destino_final' => null
     ];
     $manifiesto_id = count($_SESSION['manifiestos']) - 1;
     echo "<script>
         window.open('../pages/manifiesto.php?id={$manifiesto_id}','_blank');
     </script>";
 
-}else{ //CENTRO DISTRIBUCION
+}else { 
+    // Código de centro de distribución
     $respuesta_envios_sucact = mysqli_query($conexion, "
     SELECT * 
     FROM envio 
     WHERE envio.sucursal_actual = {$sucursal_actual} 
-      AND envio.codigo IN (
-          SELECT envio_id 
-          FROM movimientos 
-          WHERE estados_id = 3 
-          AND fecha = (
-              SELECT MAX(fecha) 
-              FROM movimientos mov 
-              WHERE mov.envio_id = envio.codigo
+      AND (
+          envio.codigo IN (
+              -- Envíos cuyo último estado es 'EN CENTRO DE DISTRIBUCIÓN'
+              SELECT envio_id 
+              FROM movimientos 
+              WHERE estados_id = 3 
+              AND fecha = (
+                  SELECT MAX(fecha) 
+                  FROM movimientos mov 
+                  WHERE mov.envio_id = envio.codigo
+              )
+          )
+          OR 
+          (
+              -- Envíos admitidos directamente en el centro de distribución
+              envio.codigo NOT IN (
+                  SELECT envio_id 
+                  FROM movimientos 
+                  WHERE estados_id = 3
+              ) 
+              AND envio.sucursal_origen = envio.sucursal_actual
+              AND envio.sucursal_actual = {$sucursal_actual}
           )
       )
 ");
-    
-    while($fila = mysqli_fetch_assoc($respuesta_envios_sucact)){
+    while ($fila = mysqli_fetch_assoc($respuesta_envios_sucact)) {
         $envios[] = $fila;
     }
-    for($i = 0 ; $i<count($envios) ; $i++){
-        $destinos[$i] = (int) $envios[$i]['sucursal_destino'];
-    }
-    $destinos_unic = array_unique($destinos);
-    echo count($destinos);
-    for($i = 0 ; $i<count($destinos) ; $i++){
-        $sucursal_destino = $destinos[$i];
-        $respuesta_sucdest = mysqli_query($conexion , "SELECT id,centro_designado,rol FROM sucursal WHERE sucursal.id = '$sucursal_destino'");
-        //ESTE CASO ES SI EL DESTINO TIENE COMO CENTRO_DESIGNADO EL MISMO QUE NUESTRA SUCURSAL
-        $datos_respuesta_sucdest = mysqli_fetch_assoc($respuesta_sucdest);
-        $envioxmanifiesto = [];
-        
-        for($j = 0 ;  $j<count($envios) ; $j++){
-            if($envios[$j]['sucursal_destino'] == $sucursal_destino){
-                $envioxmanifiesto[] = $envios[$j];
-                $result_query = mysqli_query($conexion, "INSERT INTO movimientos(envio_id, estados_id, fecha) VALUES ('" . $envios[$j]['codigo'] . "', 2, '$fecha')");
-                echo $result_query;
-            }
-        }       
-        
-        //CENTRO A HIJO
-        if($datos_respuesta_sucdest['centro_designado'] ==  $datos_rol_origen['id']){
-                $manifiesto_dest = $sucursal_destino;
-        }  
-        else if($datos_respuesta_sucdest['rol'] == 'centro'){
-            //CENTRO A CENTRO (DESTINO FINAL)
-            $manifiesto_dest = $sucursal_destino;
-        }
-        else{
-                //CENTRO A HIJO AJENO
-                $manifiesto_dest = $datos_respuesta_sucdest['centro_designado'];
-        }      
-        
-        $_SESSION['manifiestos'][] = [
-            'datos' => $envioxmanifiesto,
-            'destino' => $manifiesto_dest
-        ];
-        $manifiesto_id = count($_SESSION['manifiestos']) - 1;
-        
-        echo "<script>
-            window.open('../pages/manifiesto.php?id={$manifiesto_id}','_blank');
-        </script>";
 
+    // Validar que $envios no esté vacío
+    if (empty($envios)) {
+        echo "No hay envíos disponibles.";
+    } else {
+        foreach ($envios as $envio) {
+            $destinos[] = (int) $envio['sucursal_destino'];
+        }
+
+        $destinos_unic = array_unique($destinos);
+        
+        foreach ($destinos_unic as $sucursal_destino) {
+            echo "Procesando destino: $sucursal_destino<br>";
+            
+            // Consultar datos de la sucursal de destino
+            $respuesta_sucdest = mysqli_query($conexion, "SELECT id, centro_designado, rol FROM sucursal WHERE sucursal.id = '$sucursal_destino'");
+            $datos_respuesta_sucdest = mysqli_fetch_assoc($respuesta_sucdest);
+
+            // Validar que la sucursal existe y tiene datos válidos
+            if (!$datos_respuesta_sucdest) {
+                echo "Error: Sucursal de destino no encontrada.";
+                continue;
+            }
+            
+            $envioxmanifiesto = [];
+            foreach ($envios as $envio) {
+                if ($envio['sucursal_destino'] == $sucursal_destino) {
+                    $envioxmanifiesto[] = $envio;
+                    mysqli_query($conexion, "INSERT INTO movimientos(envio_id, estados_id, fecha) VALUES ('" . $envio['codigo'] . "', 2, '$fecha')");
+                }
+            }
+
+            // Lógica para determinar `manifiesto_dest`
+            if ($datos_respuesta_sucdest['centro_designado'] == $datos_rol_origen['id']) {
+                // Caso centro a hijo
+                $manifiesto_dest = $sucursal_destino;
+            } else if ($datos_respuesta_sucdest['rol'] == 'centro') {
+                // Caso centro a centro (destino final)
+                $manifiesto_dest = $sucursal_destino;
+            } else {
+                // Caso centro a hijo ajeno
+                $manifiesto_dest = $datos_respuesta_sucdest['centro_designado'];
+            }
+
+            // Guardar el manifiesto en la sesión
+            $_SESSION['manifiestos'][] = [
+                'datos' => $envioxmanifiesto,
+                'destino' => $manifiesto_dest,
+                'destino_final' => $sucursal_destino
+            ];
+
+            $manifiesto_id = count($_SESSION['manifiestos']) - 1;
+            echo "<script>window.open('../pages/manifiesto.php?id={$manifiesto_id}','_blank');</script>";
+        }
     }
 }
 ?>

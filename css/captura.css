@@ -79,7 +79,7 @@ label {
     display: inline-block;
     width: 150px;
     margin-right: 10px;
-    text-align: right;
+    text-align: left;
 }
 
 select, input {
@@ -137,4 +137,15 @@ th {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
+}
+.btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-primary {
+    background-color: #4f518c;
+    color: white;
 }
